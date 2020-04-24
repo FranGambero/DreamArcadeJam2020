@@ -34,5 +34,11 @@ public class PlayerController : MonoBehaviour {
         if (collision.CompareTag("Item")) {
             Destroy(collision.gameObject);
         }
+
+        if (collision.CompareTag("Heart")){
+            Debug.Log("Te quito vida wey");
+            PlayerStats.Instance.performDamage(collision.gameObject.GetComponent<ItemDrop>().damage);
+            Destroy(collision.gameObject);
+        }
     }
 }
