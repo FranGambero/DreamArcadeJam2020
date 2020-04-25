@@ -4,33 +4,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    public int indexPosition = 1;
-    public Transform[] positions;
+    private int numRooms, numFloors;
+    public Transform[,] positions;
+    public Transform[] habitaciones;
+    private int roomIndex;
+    public int xPos, yPos;
 
     private void Start() {
-        startPosition();
+        numRooms = 3;
+        numFloors = 4;
+        roomIndex = 0;
+        xPos = yPos = 0;
+        positions = new Transform[numFloors, numRooms];
+
+        fillMatrix();
     }
 
-    private void startPosition() {
-        this.transform.position = positions[indexPosition].position;
+    private void fillMatrix() {
+        for (int i = 0; i <= numFloors - 1; i++) {
+            for (int j = 0; j <= numRooms - 1; j++) {
+                positions[i, j] = habitaciones[roomIndex];
+                roomIndex++;
+            }
+        }
+
+        transform.position = positions[xPos, yPos].position;
     }
 
     private void Update() {
 
-        if (Input.GetKeyDown(KeyCode.D) && indexPosition < positions.Length - 1) {
-            indexPosition++;
-            movePosition(indexPosition);
-        } else if (Input.GetKeyDown(KeyCode.A) && indexPosition > 0) {
-            indexPosition--;
-            movePosition(indexPosition);
+        if (Input.GetKeyDown(KeyCode.W) && xPos < numFloors - 1 && yPos == 1) {
+            xPos++;
+            movePosition();
+        } else if (Input.GetKeyDown(KeyCode.S) && xPos > 0 && yPos == 1) {
+            xPos--;
+            movePosition();
+        } else if (Input.GetKeyDown(KeyCode.D) && yPos < numRooms - 1) {
+            yPos++;
+            movePosition();
+        } else if (Input.GetKeyDown(KeyCode.A) && yPos > 0) {
+            yPos--;
+            movePosition();
         }
+
     }
 
-    private void movePosition(int nextPosition) {
-        this.transform.position = positions[nextPosition].position;
+    private void movePosition() {
+        this.transform.position = positions[xPos, yPos].position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
+        // Cambiar por las zonas de las salas
         if (collision.CompareTag("Item")) {
             Destroy(collision.gameObject);
         }
