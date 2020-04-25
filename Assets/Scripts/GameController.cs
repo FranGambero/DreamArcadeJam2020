@@ -1,18 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public float timer, maxTime;
+    public List<GameObject> listaVecinos;
+
+    private void Awake() {
+        maxTime = 3;
+        timer = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update() {
+        timer += Time.deltaTime;
+        if(timer >= maxTime) {
+            spawnVecino();
+            timer = 0;
+        }
+
+    }
+
+    private void spawnVecino() {
+        listaVecinos.Find(item => item.activeInHierarchy == false).SetActive(true);
     }
 }

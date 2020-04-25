@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Singleton<PlayerController> {
     private int numRooms, numFloors;
     public Transform[,] positions;
     public Transform[] habitaciones;
@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
         for (int i = 0; i <= numFloors - 1; i++) {
             for (int j = 0; j <= numRooms - 1; j++) {
                 positions[i, j] = habitaciones[roomIndex];
+                habitaciones[roomIndex].position = positions[i, j].position;
                 roomIndex++;
             }
         }
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-
+        // Esto se puede mejorar, molaria sacar la llamada a MovePosition y hacerla común
         if (Input.GetKeyDown(KeyCode.W) && xPos < numFloors - 1 && yPos == 1) {
             xPos++;
             movePosition();
