@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,13 @@ public class GameController : Singleton<GameController>
     public int numRooms, numFloors;
     public Transform[,] roomPosition;
     public Transform[] habitaciones;
+    [SerializeField]
+    public Sprite[,] spritevecinos;
     private int roomIndex;
+
+    public List<Sprite> spritesElegidos;
+    public List<Sprite> spritesLibres;
+
 
     public float timer, maxTime;
     public List<GameObject> listaVecinos;
@@ -21,6 +26,8 @@ public class GameController : Singleton<GameController>
         roomIndex = 0;
         numVecinosActivos = 0;
         roomPosition = new Transform[numFloors, numRooms];
+
+        spritesElegidos = spritesLibres = new List<Sprite>();
 
         fillMatrix();
     }
@@ -50,9 +57,26 @@ public class GameController : Singleton<GameController>
                 roomIndex++;
             }
         }
+    }
 
-        //PlayerController.Instance.summonPlayer();
+    public Sprite[] assignSprite() {
+        Sprite[] arrayResult = new Sprite[2];
 
+        int spriteIndex = Random.Range(0, spritesLibres.Count);
+
+        // Modificar si aumentaramos la cantidad de sprites por animacion
+        if(spriteIndex % 2 != 0) {
+            spriteIndex--;
+        }
+
+        for (int i = 0; i < arrayResult.Length; i++) {
+            arrayResult[i] = spritesLibres[spriteIndex + i];
+        }
+
+        spritesElegidos.AddRange(arrayResult);
+        spritesLibres.RemoveRange(spriteIndex, 2);
+
+        return arrayResult;
     }
 
     private void spawnVecino() {

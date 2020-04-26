@@ -6,15 +6,22 @@ using UnityEngine;
 public class PlayerController : Singleton<PlayerController> {
 
     public int xPos, yPos;
+    public SpriteRenderer sprite1, sprite2;
+    public Animator myAnimator;
+    public Sprite[] spriteArray;
 
     private void Start() {
         xPos = 0; // Floor number
         yPos = 1; // Room number
 
+        spriteArray = GameController.Instance.assignSprite();
+
         summonPlayer();
     }
 
     public void summonPlayer() {
+        sprite1.sprite = spriteArray[0];
+        sprite2.sprite = spriteArray[1];
         transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
     }
 
