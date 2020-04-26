@@ -4,43 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController> {
-    private int numRooms, numFloors;
-    public Transform[,] positions;
-    public Transform[] habitaciones;
-    private int roomIndex;
+
     public int xPos, yPos;
 
     private void Start() {
-        numRooms = 3;
-        numFloors = 4;
-        roomIndex = 0;
-        xPos = yPos = 0;
-        positions = new Transform[numFloors, numRooms];
+        xPos = 0; // Floor number
+        yPos = 1; // Room number
 
-        fillMatrix();
+        summonPlayer();
     }
 
-    private void fillMatrix() {
-        for (int i = 0; i <= numFloors - 1; i++) {
-            for (int j = 0; j <= numRooms - 1; j++) {
-                positions[i, j] = habitaciones[roomIndex];
-                habitaciones[roomIndex].position = positions[i, j].position;
-                roomIndex++;
-            }
-        }
-
-        transform.position = positions[xPos, yPos].position;
+    public void summonPlayer() {
+        transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
     }
 
     private void Update() {
         // Esto se puede mejorar, molaria sacar la llamada a MovePosition y hacerla común
-        if (Input.GetKeyDown(KeyCode.W) && xPos < numFloors - 1 && yPos == 1) {
+        if (Input.GetKeyDown(KeyCode.W) && xPos < GameController.Instance.numFloors - 1 && yPos == 1) {
             xPos++;
             movePosition();
         } else if (Input.GetKeyDown(KeyCode.S) && xPos > 0 && yPos == 1) {
             xPos--;
             movePosition();
-        } else if (Input.GetKeyDown(KeyCode.D) && yPos < numRooms - 1) {
+        } else if (Input.GetKeyDown(KeyCode.D) && yPos < GameController.Instance.numRooms - 1) {
             yPos++;
             movePosition();
         } else if (Input.GetKeyDown(KeyCode.A) && yPos > 0) {
@@ -51,7 +37,7 @@ public class PlayerController : Singleton<PlayerController> {
     }
 
     private void movePosition() {
-        this.transform.position = positions[xPos, yPos].position;
+        this.transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
