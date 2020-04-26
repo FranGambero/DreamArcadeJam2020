@@ -18,30 +18,27 @@ public class GameController : Singleton<GameController>
     public float timer, maxTime;
     public List<GameObject> listaVecinos;
     private int numVecinosActivos;
-    private bool vecinito;
 
     private void Start() {
+        maxTime = 5;
+        timer = 0;
+
+    }
+
+
+    private void Awake() {
         numRooms = 3;
         numFloors = 4;
         roomIndex = 0;
         numVecinosActivos = 0;
         roomPosition = new Transform[numFloors, numRooms];
 
-        spritesElegidos = spritesLibres = new List<Sprite>();
-
         fillMatrix();
-    }
-
-
-    private void Awake() {
-        maxTime = 5;
-        timer = 0;
-        vecinito = false;
     }
 
     private void Update() {
         timer += Time.deltaTime;
-        if(timer >= maxTime && numVecinosActivos < 3) { //Los vecinos maximos que queramos mostrar de momento
+        if(timer >= maxTime && numVecinosActivos < 3) { // Los vecinos maximos que queramos mostrar de momento
             numVecinosActivos++;
             spawnVecino();
             timer = 0;

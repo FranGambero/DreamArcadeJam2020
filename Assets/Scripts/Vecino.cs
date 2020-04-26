@@ -6,13 +6,20 @@ using UnityEngine;
 public class Vecino : MonoBehaviour {
     private Transform hall;
     private Transform habitacion;
-    public bool hasHabitacion; //Cambiar por algo mejor
+    public bool hasHabitacion; // Cambiar por algo mejor
     private Transform nextRoom;
     private Queue<Transform> tour;
     private int listIndex;
 
+    public SpriteRenderer spriteRenderer1, spriteRenderer2;
+    public Sprite[] spriteArray;
+    public Animator myAnimator;
+
 
     private void Awake() {
+        myAnimator = GetComponent<Animator>();
+        startSpriteAnim();
+
         tour = new Queue<Transform>();
         listIndex = 0;
         hall = GameController.Instance.roomPosition[0, 1];
@@ -20,6 +27,14 @@ public class Vecino : MonoBehaviour {
         hasHabitacion = false;
 
         Invoke(nameof(assignRoom), 1);
+    }
+
+    private void startSpriteAnim() {
+        spriteArray = GameController.Instance.assignSprite();
+        spriteRenderer1.sprite = spriteArray[0];
+        spriteRenderer2.sprite = spriteArray[1];
+
+        myAnimator.Play("WalkAnim");
     }
     public void assignRoom() {
         // Primero buscamos planta, hay que checkear si no esta ocupado con el script de Nacho

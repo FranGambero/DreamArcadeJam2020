@@ -7,8 +7,8 @@ public class PlayerController : Singleton<PlayerController> {
 
     public int xPos, yPos;
     public SpriteRenderer sprite1, sprite2;
-    public Animator myAnimator;
     public Sprite[] spriteArray;
+    public Animator myAnimator;
 
     private void Start() {
         xPos = 0; // Floor number
@@ -22,6 +22,7 @@ public class PlayerController : Singleton<PlayerController> {
     public void summonPlayer() {
         sprite1.sprite = spriteArray[0];
         sprite2.sprite = spriteArray[1];
+
         transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
     }
 
@@ -35,9 +36,13 @@ public class PlayerController : Singleton<PlayerController> {
             movePosition();
         } else if (Input.GetKeyDown(KeyCode.D) && yPos < GameController.Instance.numRooms - 1) {
             yPos++;
+            sprite1.flipX = false;
+            sprite2.flipX = false;
             movePosition();
         } else if (Input.GetKeyDown(KeyCode.A) && yPos > 0) {
             yPos--;
+            sprite1.flipX = true;
+            sprite2.flipX = true;
             movePosition();
         }
 
