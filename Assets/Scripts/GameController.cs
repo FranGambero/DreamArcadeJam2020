@@ -41,7 +41,6 @@ public class GameController : Singleton<GameController>
             spawnVecino();
             timer = 0;
         }
-
     }
 
     private void fillMatrix() {
@@ -75,6 +74,10 @@ public class GameController : Singleton<GameController>
     }
 
     private void spawnVecino() {
-        listaVecinos.Find(item => item.activeInHierarchy == false).SetActive(true);
+        GameObject nextVecino = listaVecinos.Find(item => item.activeInHierarchy == false);
+        nextVecino.SetActive(true);
+        nextVecino.GetComponent<Vecino>().initVecino();
+
+
     }
 }

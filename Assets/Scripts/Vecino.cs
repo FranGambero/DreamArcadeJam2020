@@ -4,27 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Vecino : MonoBehaviour {
-    private Transform hall;
+    public Transform calle;
     private Transform habitacion;
-    public bool hasHabitacion; // Cambiar por algo mejor
+    public bool moveHorizontal;
     private Transform nextRoom;
     private Queue<Transform> tour;
-    private int listIndex;
 
     public SpriteRenderer spriteRenderer1, spriteRenderer2;
     public Sprite[] spriteArray;
     public Animator myAnimator;
 
+    private int targetFloor, targetRoom, currentFloor;
 
-    private void Awake() {
+    [ContextMenu("VIVA ZAPATERO")]
+    public void initVecino() {
+        currentFloor = 0;
         myAnimator = GetComponent<Animator>();
         startSpriteAnim();
 
         tour = new Queue<Transform>();
-        listIndex = 0;
-        hall = GameController.Instance.roomPosition[0, 1];
-        tour.Enqueue(hall);
-        hasHabitacion = false;
+        tour.Enqueue(calle);
+        moveHorizontal = false;
 
         Invoke(nameof(assignRoom), 1);
     }
@@ -34,47 +34,79 @@ public class Vecino : MonoBehaviour {
         spriteRenderer1.sprite = spriteArray[0];
         spriteRenderer2.sprite = spriteArray[1];
 
-        myAnimator.Play("WalkAnim");
+        spriteRenderer1.sortingOrder = spriteRenderer2.sortingOrder = 420;
     }
     public void assignRoom() {
         // Primero buscamos planta, hay que checkear si no esta ocupado con el script de Nacho
-        int randomFloor = UnityEngine.Random.Range(0, GameController.Instance.numFloors);
-        int randomRoom = UnityEngine.Random.Range(0, GameController.Instance.numRooms); // Quitar que vaya al rellano (room == 1)
+        targetFloor = UnityEngine.Random.Range(0, GameController.Instance.numFloors);
+        targetRoom = UnityEngine.Random.Range(0, GameController.Instance.numRooms); // Quitar que vaya al rellano (room == 1)
 
-        if(randomRoom == 1) {
-            randomRoom = (gameObject.GetInstanceID() % 2 == 0) ? 0 : 2;
+        if (targetRoom == 1) {
+            targetRoom = (gameObject.GetInstanceID() % 2 == 0) ? 0 : 2;
         }
 
         //Ahora vamos a la planta
-        Transform planta = GameController.Instance.roomPosition[randomFloor, 1];
-        tour.Enqueue(planta);
+        Transform planta;
+        while (currentFloor <= targetFloor) {
+            planta = GameController.Instance.roomPosition[currentFloor, 1];
+            tour.Enqueue(planta);
+            currentFloor++;
+        }
 
         //Y finalmente a la propia habitacion
-        habitacion = GameController.Instance.roomPosition[randomFloor, randomRoom];
+        habitacion = GameController.Instance.roomPosition[targetFloor, targetRoom];
         tour.Enqueue(habitacion);
         Debug.Log("Tu habitacion es: " + habitacion);
-        hasHabitacion = true;
-        selectNextRoom();
+
+        moveHorizontal = true;
+
+        nextRoom = tour.Dequeue();
+        flipDirection();
 
     }
 
+    private void flipDirection() {
+        if (transform.position.x > nextRoom.position.x) {
+            spriteRenderer1.flipX = spriteRenderer2.flipX = true;
+        } else {
+            spriteRenderer1.flipX = spriteRenderer2.flipX = false;
+        }
+
+        toggleAnimation();
+    }
+
     private void Update() {
-        if (hasHabitacion) {
-            transform.position =  Vector3.MoveTowards(transform.position, nextRoom.position, Time.deltaTime * 1.5f);
+        if (moveHorizontal) {
+            transform.position = Vector3.MoveTowards(transform.position, nextRoom.position, Time.deltaTime * 1.5f);
             if (Vector3.Distance(transform.position, nextRoom.position) < .25f) {
-                selectNextRoom();
+                spriteRenderer1.sortingOrder = spriteRenderer2.sortingOrder = 1;
+                moveHorizontal = false;
+                toggleAnimation();
+                Invoke(nameof(selectNextRoom), .5f);
             }
         }
     }
 
     private void selectNextRoom() {
-        if (tour.Count > 0) {
+        if (tour.Count > 1) {
             nextRoom = tour.Dequeue();
-
+            transform.position = nextRoom.position;
+            Invoke(nameof(selectNextRoom), 1);
+        } else if(tour.Count == 1){
+            nextRoom = tour.Dequeue();
+            moveHorizontal = true;
+            flipDirection();
         } else {
-            //transform.position = hall.position;
             Debug.Log("He terminao :3");
-            hasHabitacion = false;
+            // Llamar movimientos por la salica, Room Ignacio
+        }
+    }
+
+    public void toggleAnimation() {
+        if (moveHorizontal || tour.Count <= 0) {
+            myAnimator.Play("WalkAnim");
+        } else {
+            myAnimator.Play("IdleAnim");
         }
     }
 }
