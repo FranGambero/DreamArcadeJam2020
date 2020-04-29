@@ -154,9 +154,9 @@ MonoBehaviour:
   sprite2: {fileID: 3497482549365530669}
   Hand: {fileID: 566401722920597262}
   spriteArray: []
-  wrenchSprite: {fileID: 7155652846937496742, guid: be32e710c9f0d8542ab8ada928653499,
+  wrenchSprite: {fileID: -9166200356469041071, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}
-  hammerSprite: {fileID: 5292716684467120071, guid: be32e710c9f0d8542ab8ada928653499,
+  hammerSprite: {fileID: 3424674198401663528, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}
   extinguisherSprite: {fileID: -5651667117540000442, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}

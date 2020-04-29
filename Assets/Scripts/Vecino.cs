@@ -129,6 +129,8 @@ public class Vecino : MonoBehaviour {
                 } else {
                     nextRoom = habitacion.transform.position + Vector3.up * yOffset;
                 }
+                myAnimator.Play("IdleAnim");
+
                 yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 4f));
                 flipDirection();
             }

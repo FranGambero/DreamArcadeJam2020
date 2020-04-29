@@ -7,8 +7,10 @@ public class GameController : Singleton<GameController>
     public int numRooms, numFloors;
     public Transform[,] roomPosition;
     public Transform[] habitaciones;
+    public Transform[] Elevators;
     [SerializeField]
     public Sprite[,] spritevecinos;
+    public Sprite ClosedElevator, OpenElevator;
     private int roomIndex;
 
     public List<Sprite> spritesElegidos;

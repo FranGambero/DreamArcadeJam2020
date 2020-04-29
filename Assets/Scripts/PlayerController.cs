@@ -45,8 +45,7 @@ public class PlayerController : Singleton<PlayerController> {
         if (Input.GetAxisRaw("Vertical") > 0 && xPos < GameController.Instance.numFloors - 1 && yPos == 1) {
             if (!usingAxisUp) {
                 usingAxisUp = true;
-                xPos++;
-                movePosition();
+                movePosition(xPos + 1, yPos);
             }
         } else {
             usingAxisUp = false;
@@ -54,8 +53,7 @@ public class PlayerController : Singleton<PlayerController> {
 
         if (Input.GetAxisRaw("Vertical") < 0 && xPos > 0 && yPos == 1) {
             if (!usingAxisDown) {
-                xPos--;
-                movePosition();
+                movePosition(xPos - 1, yPos);
                 usingAxisDown = true;
 
             }
@@ -66,10 +64,9 @@ public class PlayerController : Singleton<PlayerController> {
         if (Input.GetAxisRaw("Horizontal") > 0 && yPos < GameController.Instance.numRooms - 1) {
             if (!usingAxisRigth) {
                 usingAxisRigth = true;
-                yPos++;
                 sprite1.flipX = false;
                 sprite2.flipX = false;
-                movePosition();
+                movePosition(xPos, yPos + 1);
             }
         } else {
             usingAxisRigth = false;
@@ -79,10 +76,9 @@ public class PlayerController : Singleton<PlayerController> {
         if (Input.GetAxisRaw("Horizontal") < 0 && yPos > 0) {
             if (!usingAxisLeft) {
                 usingAxisLeft = true;
-                yPos--;
                 sprite1.flipX = true;
                 sprite2.flipX = true;
-                movePosition();
+                movePosition(xPos, yPos - 1);
             }
         } else {
             usingAxisLeft = false;
@@ -95,35 +91,41 @@ public class PlayerController : Singleton<PlayerController> {
     private void checkInputs() {
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             Debug.Log("Pulsando wrench");
-            if (currentRoom != null)
-                currentRoom.ReduceBDCountdown(KeyCode.Alpha1);
-            if (handCoroutine != null)
-                StopCoroutine(handCoroutine);
-            StartCoroutine(ShowHand(GetSprite(BreakdownType.Wrench)));
+
+            KeyPressed(KeyCode.Alpha1, BreakdownType.Wrench);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2)) {
             Debug.Log("Pulsando hammer");
-            if (currentRoom != null)
-                currentRoom.ReduceBDCountdown(KeyCode.Alpha2);
-            if (handCoroutine != null)
-                StopCoroutine(handCoroutine);
-            StartCoroutine(ShowHand(GetSprite(BreakdownType.Hammer)));
 
+            KeyPressed(KeyCode.Alpha2, BreakdownType.Hammer);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3)) {
             Debug.Log("Pulsando extinguisher");
-            if (currentRoom != null)
-                currentRoom.ReduceBDCountdown(KeyCode.Alpha3);
-            if (handCoroutine != null)
-                StopCoroutine(handCoroutine);
-            StartCoroutine(ShowHand(GetSprite(BreakdownType.Extinguisher)));
-
+            KeyPressed(KeyCode.Alpha3, BreakdownType.Extinguisher);
         }
     }
+    private void KeyPressed(KeyCode key, BreakdownType b_Type) {
+        if (currentRoom != null)
+            currentRoom.ReduceBDCountdown(key);
+        if (handCoroutine != null)
+            StopCoroutine(handCoroutine);
+        UIController.Instance.ClickToolButton(b_Type);
+        StartCoroutine(ShowHand(GetSprite(b_Type)));
 
-    private void movePosition() {
+    }
+
+    private void movePosition(int xPos, int yPos) {
+        Debug.Log(this.yPos + "y: " + yPos + ", " + this.xPos + "x: " + xPos);
+        if (yPos == 1 && this.xPos != xPos) {
+            Debug.Log("Hola");
+            GameController.Instance.Elevators[xPos].GetComponentInChildren<SpriteRenderer>().sprite = GameController.Instance.OpenElevator;
+            GameController.Instance.Elevators[this.xPos].GetComponentInChildren<SpriteRenderer>().sprite = GameController.Instance.ClosedElevator;
+        }
+        this.xPos = xPos;
+        this.yPos = yPos;
+
         this.transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
         assignCurrentRoomController(xPos, yPos);
     }

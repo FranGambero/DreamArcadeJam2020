@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 7155652846937496742, guid: be32e710c9f0d8542ab8ada928653499,
+  m_Sprite: {fileID: 3424674198401663528, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6278969326542672104}
   - component: {fileID: 6278969326542672107}
+  - component: {fileID: 1576055244214920922}
   m_Layer: 0
   m_Name: BD
   m_TagString: Untagged
@@ -163,6 +164,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1576055244214920922
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278969326542672105}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 87b8f7d39ed6e8241b33257841a09d5e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6278969327303800457
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,9 +230,9 @@ MonoBehaviour:
   maxCountdown: 1
   minCountdown: 1
   _sr: {fileID: 6278969326276855388}
-  wrenchSprite: {fileID: 7155652846937496742, guid: be32e710c9f0d8542ab8ada928653499,
+  wrenchSprite: {fileID: -9166200356469041071, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}
-  hammerSprite: {fileID: 5292716684467120071, guid: be32e710c9f0d8542ab8ada928653499,
+  hammerSprite: {fileID: 3424674198401663528, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}
   extinguisherSprite: {fileID: -5651667117540000442, guid: be32e710c9f0d8542ab8ada928653499,
     type: 3}
