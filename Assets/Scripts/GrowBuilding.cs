@@ -8,8 +8,8 @@ public class GrowBuilding : Singleton<GrowBuilding> {
     Vector3 nextPostion;
     public ShakeTransformS cameraShaker;
     public List<ParticleSystem> dustParticles;
-    public bool IsMoving { get; private set;}
-    public int CurrentFloor { get; private set;}
+    public bool IsMoving { get; private set; }
+    public int CurrentFloor { get; private set; }
     public Action BuildStopMovingAction;
     public Action BuildStartMovingAction;
 
@@ -36,9 +36,14 @@ public class GrowBuilding : Singleton<GrowBuilding> {
         dustParticles.ForEach(o => o.Stop());
     }
 
-    public void MoveNextFloor() {
-        if(CurrentFloor <= positions.Count - 1) {
-
+    public void MoveUpFloor() {
+        if (CurrentFloor <= positions.Count - 2) {
+            SetInPostion(CurrentFloor + 1);
+        }
+    }
+    public void MoveDownPosition() {
+        if (CurrentFloor > 0) {
+            SetInPostion(CurrentFloor - 1);
         }
     }
 
@@ -67,7 +72,8 @@ public class GrowBuilding : Singleton<GrowBuilding> {
         if (BuildStartMovingAction != null) {
             BuildStartMovingAction();
         }
-    }public void OnBuildStopMoving() {
+    }
+    public void OnBuildStopMoving() {
         if (BuildStopMovingAction != null) {
             BuildStopMovingAction();
         }
