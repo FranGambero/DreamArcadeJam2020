@@ -10,6 +10,8 @@ public class PlayerController : Singleton<PlayerController> {
     public Sprite[] spriteArray;
     public Animator myAnimator;
 
+    public RoomController currentRoom;
+
     private void Start() {
         xPos = 0; // Floor number
         yPos = 1; // Room number
@@ -23,7 +25,7 @@ public class PlayerController : Singleton<PlayerController> {
         sprite1.sprite = spriteArray[0];
         sprite2.sprite = spriteArray[1];
 
-        transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
+        //transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
     }
 
     private void Update() {
@@ -46,10 +48,35 @@ public class PlayerController : Singleton<PlayerController> {
             movePosition();
         }
 
+        checkInputs();
+
+    }
+
+    private void checkInputs() {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            Debug.Log("Pulsando wrench");
+            currentRoom.ReduceBDCountdown(KeyCode.Alpha1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            Debug.Log("Pulsando hammer");
+            currentRoom.ReduceBDCountdown(KeyCode.Alpha2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            Debug.Log("Pulsando extinguisher");
+            currentRoom.ReduceBDCountdown(KeyCode.Alpha3);
+        }
     }
 
     private void movePosition() {
         this.transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
+        assignCurrentRoomController(xPos, yPos);
+    }
+
+    private void assignCurrentRoomController(int floorPos, int roomPos) {
+        //currentRoom = GameController.Instance.roomPosition[floorPos, roomPos].GetComponentInChildren<RoomController>();
+        currentRoom = RoomManager.Instance.getRoomController(floorPos, roomPos);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

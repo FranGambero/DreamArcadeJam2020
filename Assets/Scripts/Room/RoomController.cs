@@ -6,7 +6,7 @@ public class RoomController : MonoBehaviour
 {
     #region Variables
 
-    private int xRoom, yFloor;
+    public int yRoom, xFloor;
     private Transform roomTrans;
     private Sprite roomSprite;
 
@@ -19,6 +19,8 @@ public class RoomController : MonoBehaviour
     public List<GameObject> BD_SpawnList;
 
     public GameObject BD_Prefab;
+    public float timer, maxTime;
+    public bool centipedesInMyVagina = false;
 
     #endregion
 
@@ -27,13 +29,28 @@ public class RoomController : MonoBehaviour
 
     private void Awake()
     {
+        timer = 0;
         room_renderer.sprite = roomSprite;
+    }
+
+    private void Start() {
+        
+        maxTime = Random.Range(GameController.Instance.minTime, GameController.Instance.maxTime);
     }
 
     private void Update()
     {
-        //TEST
-        if(generateBD == true)
+        //TEST      
+        if (HasNeighbor() && centipedesInMyVagina) {
+            if (timer >= maxTime) {
+                timer = 0;
+                CreateBreakdown();
+            } else {
+                timer += Time.deltaTime;
+            }
+        }
+
+        if (generateBD == true)
         {
             CreateBreakdown();
             generateBD = false;
@@ -47,22 +64,22 @@ public class RoomController : MonoBehaviour
         roomTrans = newTransform;
     }
 
-    public void SetRoomCoords(int xPos, int yPos)
-    {
-        this.xRoom = xPos;
-        this.yFloor = yPos;
-    }
-
     public void SetRoomSprite(Sprite sprite)
     {
         this.roomSprite = sprite;
         room_renderer.sprite = roomSprite;
+
+        if(yRoom == 2) {
+            room_renderer.flipX = true;
+        }  else {
+            room_renderer.flipX = false;
+        }
     }
 
     public void SetRoom(Transform newTransform, int xPos, int yPos, Sprite sprite)
     {
         SetRoomTransform(newTransform);
-        SetRoomCoords(xPos, yPos);
+        //SetRoomCoords(xPos, yPos);
         SetRoomSprite(sprite);
     }
 

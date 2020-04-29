@@ -15,7 +15,7 @@ public class GameController : Singleton<GameController>
     public List<Sprite> spritesLibres;
 
 
-    public float timer, maxTime;
+    public float timer, maxTime, minTime;
     public List<GameObject> listaVecinos;
     private int numVecinosActivos;
 
@@ -26,12 +26,14 @@ public class GameController : Singleton<GameController>
         numVecinosActivos = 0;
         roomPosition = new Transform[numFloors, numRooms];
 
-        fillMatrix();
+        maxTime = 5;
+        minTime = 3;
+        timer = 0;
+
     }
 
     private void Start() {
-        maxTime = 5;
-        timer = 0;
+        fillMatrix();
     }
 
     private void Update() {
@@ -46,8 +48,11 @@ public class GameController : Singleton<GameController>
     private void fillMatrix() {
         for (int i = 0; i <= numFloors - 1; i++) {
             for (int j = 0; j <= numRooms - 1; j++) {
-                roomPosition[i, j] = habitaciones[roomIndex];
-                habitaciones[roomIndex].position = roomPosition[i, j].position;
+                roomPosition[i, j] = habitaciones[roomIndex].transform;
+                habitaciones[roomIndex].transform.position = roomPosition[i, j].position;
+                if (j != 1) {
+                    RoomManager.Instance.GenerateRoom(habitaciones[roomIndex].transform, i, j);
+                }
                 roomIndex++;
             }
         }
@@ -75,7 +80,7 @@ public class GameController : Singleton<GameController>
 
     private void spawnVecino() {
         GameObject nextVecino = listaVecinos.Find(item => item.activeInHierarchy == false);
-        nextVecino.SetActive(true);
+        nextVecino.SetActive(true); 
         nextVecino.GetComponent<Vecino>().initVecino();
 
 
