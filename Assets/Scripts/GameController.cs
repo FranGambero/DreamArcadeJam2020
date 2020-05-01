@@ -89,7 +89,7 @@ public class GameController : Singleton<GameController> {
         } else {
 
             for (int i = 0; i < arrayResult.Length; i++) {
-                arrayResult[i] = spritesCaserxLibres[spriteIndex + 1];
+                arrayResult[i] = spritesCaserxLibres[spriteIndex + i];
             }
         }
 

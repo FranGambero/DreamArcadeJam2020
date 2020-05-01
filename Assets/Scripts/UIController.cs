@@ -10,12 +10,18 @@ public class UIController : Singleton<UIController> {
     public Button A2;
     public Button A3;
     public Sprite ToolStay, ToolClicked;
-    private bool isPaused = false;
+    public Animator MainCameraAnim;
+    private bool isPaused = false, firstLoop = true;
 
     private void Awake() {
         PauseMenu.SetActive(false);
+
     }
     private void Update() {
+        if (firstLoop) {
+            firstLoop = false;
+            MainCameraAnim.Play("ZoomOutCameraAnim");
+        }
         if (Input.GetKeyDown(KeyCode.Escape)) {
             setPause();
         }

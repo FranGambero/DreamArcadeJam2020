@@ -111,7 +111,9 @@ public class PlayerController : Singleton<PlayerController> {
         if (handCoroutine != null)
             StopCoroutine(handCoroutine);
         UIController.Instance.ClickToolButton(b_Type);
-        StartCoroutine(ShowHand(GetSprite(b_Type)));
+        if (handCoroutine != null)
+            StopCoroutine(handCoroutine);
+        handCoroutine = StartCoroutine(ShowHand(GetSprite(b_Type)));
 
     }
 
