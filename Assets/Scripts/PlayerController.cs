@@ -28,7 +28,7 @@ public class PlayerController : Singleton<PlayerController> {
         xPos = 0; // Floor number
         yPos = 1; // Room number
 
-        spriteArray = GameController.Instance.assignSprite();
+        spriteArray = GameController.Instance.assignSpritePlayer();
 
         summonPlayer();
     }

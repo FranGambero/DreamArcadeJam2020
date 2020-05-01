@@ -7265,7 +7265,11 @@ MonoBehaviour:
     type: 3}
   OpenElevator: {fileID: -8628291620417211898, guid: 63aef921d3ca44146ad0708e4ae228ef,
     type: 3}
-  spritesElegidos: []
+  spritesElegidos:
+  - {fileID: -5505311032467051082, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
+  - {fileID: -8979315964800192852, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
+  - {fileID: -2820575323224343157, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
+  - {fileID: -1862069028749304982, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   spritesLibres:
   - {fileID: -7049103514410413297, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 546624286021485963, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
@@ -7275,8 +7279,6 @@ MonoBehaviour:
   - {fileID: -2379475321107421134, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -503901180175678524, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 8946705397102689618, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -5505311032467051082, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -8979315964800192852, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -5215995643184021239, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 2615503336063654503, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -7974172980471477819, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
@@ -7301,8 +7303,6 @@ MonoBehaviour:
   - {fileID: 5506848263174021956, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 6033056114807278358, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 7043008718251831072, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -2820575323224343157, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -1862069028749304982, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 2118813452652936285, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 6426834498331582604, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 7339439363145618530, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
@@ -7327,6 +7327,7 @@ MonoBehaviour:
   - {fileID: 7841247780761197631, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 1170884223381543414, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -9148767526149858083, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
+  spritesCaserxLibres: []
   timer: 0
   maxTime: 0
   minTime: 0

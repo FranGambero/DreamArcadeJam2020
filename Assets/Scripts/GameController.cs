@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : Singleton<GameController>
-{
+public class GameController : Singleton<GameController> {
     public int numRooms, numFloors;
     public Transform[,] roomPosition;
     public Transform[] habitaciones;
@@ -14,8 +13,8 @@ public class GameController : Singleton<GameController>
     private int roomIndex;
 
     public List<Sprite> spritesElegidos;
-    public List<Sprite> spritesLibres;
-
+    public List<Sprite> spritesLibres, spritesCaserxLibres;
+    public string PLAYER_SELECTED_KEY = "PLAYER_SELECTED_KEY";
 
     public float timer, maxTime, minTime;
     public List<GameObject> listaVecinos;
@@ -40,7 +39,7 @@ public class GameController : Singleton<GameController>
 
     private void Update() {
         timer += Time.deltaTime;
-        if(timer >= maxTime && numVecinosActivos < 6) { // Los vecinos maximos que queramos mostrar de momento
+        if (timer >= maxTime && numVecinosActivos < 6) { // Los vecinos maximos que queramos mostrar de momento
             numVecinosActivos++;
             spawnVecino();
             timer = 0;
@@ -60,13 +59,13 @@ public class GameController : Singleton<GameController>
         }
     }
 
-    public Sprite[] assignSprite() {
+    public Sprite[] assignSpriteVecino() {
         Sprite[] arrayResult = new Sprite[2];
 
         int spriteIndex = Random.Range(0, spritesLibres.Count);
 
         // Modificar si aumentaramos la cantidad de sprites por animacion
-        if(spriteIndex % 2 != 0) {
+        if (spriteIndex % 2 != 0) {
             spriteIndex--;
         }
 
@@ -80,9 +79,26 @@ public class GameController : Singleton<GameController>
         return arrayResult;
     }
 
+    public Sprite[] assignSpritePlayer() {
+        Sprite[] arrayResult = new Sprite[2];
+
+        int spriteIndex = PlayerPrefs.GetInt(PLAYER_SELECTED_KEY, -1);
+
+        if (spriteIndex == -1) {
+            arrayResult = assignSpriteVecino();
+        } else {
+
+            for (int i = 0; i < arrayResult.Length; i++) {
+                arrayResult[i] = spritesCaserxLibres[spriteIndex + 1];
+            }
+        }
+
+        return arrayResult;
+    }
+
     private void spawnVecino() {
         GameObject nextVecino = listaVecinos.Find(item => item.activeInHierarchy == false);
-        nextVecino.SetActive(true); 
+        nextVecino.SetActive(true);
         nextVecino.GetComponent<Vecino>().initVecino();
 
 

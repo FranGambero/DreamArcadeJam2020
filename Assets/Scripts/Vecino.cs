@@ -35,7 +35,7 @@ public class Vecino : MonoBehaviour {
     }
 
     private void startSpriteAnim() {
-        spriteArray = GameController.Instance.assignSprite();
+        spriteArray = GameController.Instance.assignSpriteVecino();
         spriteRenderer1.sprite = spriteArray[0];
         spriteRenderer2.sprite = spriteArray[1];
 
