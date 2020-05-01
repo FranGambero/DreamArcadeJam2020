@@ -6,7 +6,7 @@ using UnityEngine;
 public class Vecino : MonoBehaviour {
     public Transform calle;
     private RoomController habitacion;
-    public bool moveHorizontal;
+    public bool moveHorizontal, leaving = false;
     private Vector3 nextRoom;
     private Queue<Vector3> tour;
 
@@ -39,16 +39,18 @@ public class Vecino : MonoBehaviour {
         spriteRenderer1.sprite = spriteArray[0];
         spriteRenderer2.sprite = spriteArray[1];
 
+        changeSpriteOrderInLayer();
+    }
+
+    private void changeSpriteOrderInLayer() {
         spriteRenderer1.sortingOrder = spriteRenderer2.sortingOrder = 420;
     }
+
     public void assignRoom() {
         // Primero buscamos planta, hay que checkear si no esta ocupado con el script de Nacho
         List<RoomController> habitasioneLibre = RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor());
         habitacion = habitasioneLibre[UnityEngine.Random.Range(0, habitasioneLibre.Count)];
         habitacion.SetNeighbor(this);
-
-        //targetFloor = UnityEngine.Random.Range(0, GameController.Instance.numFloors);
-        //targetRoom = UnityEngine.Random.Range(0, GameController.Instance.numRooms); // Quitar que vaya al rellano (room == 1)
 
         targetFloor = habitacion.xFloor;
         targetRoom = habitacion.yRoom;
@@ -95,6 +97,14 @@ public class Vecino : MonoBehaviour {
                 Invoke(nameof(selectNextRoom), .5f);
             }
         }
+
+        //if (leaving) {
+        //    if (spriteRenderer1.flipX) {
+        //        transform.Translate(Vector3.right * Time.deltaTime * 1.5f);
+        //    }     else {
+        //        transform.Translate(Vector3.left * Time.deltaTime * 1.5f);
+        //    }
+        //}
     }
 
     private void selectNextRoom() {
@@ -106,17 +116,18 @@ public class Vecino : MonoBehaviour {
             nextRoom = tour.Dequeue();
             moveHorizontal = true;
             flipDirection();
-        } else {
-            Debug.Log("He terminao :3");
-            // Llamar movimientos por la salica, Room Ignacio
+        } else if(!leaving){
             startPatrulla();
             habitacion.centipedesInMyVagina = true;
+        }
+
+        if(leaving && tour.Count >= 0) {
+            StartCoroutine(setInactive());
         }
     }
 
     private void startPatrulla() {
         getOffsetPosition();
-        //StopCoroutine(patrolCoroutine);
         patrolCoroutine = StartCoroutine(patrulla());
     }
 
@@ -154,5 +165,40 @@ public class Vecino : MonoBehaviour {
         } else {
             myAnimator.Play("IdleAnim");
         }
+    }
+
+    [ContextMenu("Ea")]
+    public void leaveRoom() {
+        // Volvemos a llenar la cola de posiciones pero direccion el hall
+        currentFloor = targetFloor;
+
+        leaving = true;
+        moveHorizontal = true;
+        StopCoroutine(patrolCoroutine);
+
+        Transform planta;
+        while (currentFloor >= 0) {
+            planta = GameController.Instance.roomPosition[currentFloor, 1];
+            tour.Enqueue(planta.position);
+            currentFloor--;
+        }
+
+        tour.Enqueue(calle.position);
+
+        if (spriteRenderer1.flipX) {
+            tour.Enqueue(calle.position + new Vector3(-14f, 0, 0));
+        } else {
+            tour.Enqueue(calle.position + new Vector3(14f, 0, 0));
+        }
+
+        nextRoom = tour.Dequeue();
+        moveHorizontal = true;
+    }
+
+    private IEnumerator setInactive() {
+        flipDirection();
+        yield return new WaitForSeconds(11);   // Lo que tarda en desaperecer una vez empieza a moverse por la calle
+
+        this.gameObject.SetActive(false);
     }
 }

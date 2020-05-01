@@ -70,7 +70,6 @@ public class PlayerController : Singleton<PlayerController> {
             }
         } else {
             usingAxisRigth = false;
-            Debug.Log("False");
         }
 
         if (Input.GetAxisRaw("Horizontal") < 0 && yPos > 0) {
