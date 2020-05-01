@@ -22,6 +22,13 @@ public class RoomController : MonoBehaviour
     public float timer, maxTime;
     public bool centipedesInMyVagina = false;
 
+    [Header("Income")]
+    public int maxPointsGain;
+    public int punishPerBD;
+    public float timeBetweeenIncome = 1f;
+
+    private IEnumerator income_Routine;
+
     #endregion
 
     //TEST
@@ -196,6 +203,35 @@ public class RoomController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    #endregion
+
+    #region Income
+
+    public void StartGeneratingIncome()
+    {
+        income_Routine = generateIncome();
+        StartCoroutine(income_Routine);
+    }
+
+
+    public void StopGeneratingIncome()
+    {
+        StopCoroutine(income_Routine);
+    }
+    private IEnumerator generateIncome()
+    {
+        while (true)
+        {
+            RoomManager.Instance.totalPoints += CalculateIncome();
+            yield return new WaitForSeconds(timeBetweeenIncome);
+        }
+    }
+
+    private int CalculateIncome()
+    {
+        return Mathf.Clamp((maxPointsGain - (punishPerBD * breakdownList.Count)),0,maxPointsGain);
     }
 
     #endregion

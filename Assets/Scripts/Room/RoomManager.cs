@@ -10,6 +10,8 @@ public class RoomManager : MonoBehaviour {
     public List<Transform> roomPositionList;
     public GameObject roomPrefab;
 
+    public int totalPoints;
+
     private List<RoomController> roomsList = new List<RoomController>();
 
     private RoomController _rc;
@@ -21,6 +23,7 @@ public class RoomManager : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
+        totalPoints = 0;
         //generateAllRooms();
     }
 
