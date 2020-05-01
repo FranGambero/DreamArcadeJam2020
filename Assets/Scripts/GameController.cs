@@ -27,7 +27,7 @@ public class GameController : Singleton<GameController> {
         numVecinosActivos = 0;
         roomPosition = new Transform[numFloors, numRooms];
 
-        maxTime = 5;
+        maxTime = 8;
         minTime = 3;
         timer = 0;
 
@@ -57,6 +57,8 @@ public class GameController : Singleton<GameController> {
                 roomIndex++;
             }
         }
+
+        GrowBuilding.Instance.SetInPostion(0);
     }
 
     public Sprite[] assignSpriteVecino() {

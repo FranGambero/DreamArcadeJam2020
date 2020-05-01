@@ -30,6 +30,7 @@ public class ShakeTransformS : MonoBehaviour {
     /// Start the shake
     /// </summary>
     public void Begin() {
+        GetComponent<Animator>().enabled = false;
         StopAllCoroutines();
         _doSake = true;
         StartCoroutine(Shake());
@@ -38,7 +39,7 @@ public class ShakeTransformS : MonoBehaviour {
     /// Stop shake
     /// </summary>
     public void Stop() {
-
+        GetComponent<Animator>().enabled = true;
         _doSake = false;
         StopAllCoroutines();
 

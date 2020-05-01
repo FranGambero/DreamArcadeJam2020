@@ -105,6 +105,10 @@ public class RoomController : MonoBehaviour
         return neighbor != null ? true : false;
     }
 
+    public bool isAvailable() {
+        return xFloor <= GrowBuilding.Instance.CurrentFloor + 1;
+    }
+
     #region Breakdown Creation
     private void CreateBreakdown()
     {

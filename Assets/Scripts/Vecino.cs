@@ -48,7 +48,7 @@ public class Vecino : MonoBehaviour {
 
     public void assignRoom() {
         // Primero buscamos planta, hay que checkear si no esta ocupado con el script de Nacho
-        List<RoomController> habitasioneLibre = RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor());
+        List<RoomController> habitasioneLibre = RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor() && o.isAvailable());
         habitacion = habitasioneLibre[UnityEngine.Random.Range(0, habitasioneLibre.Count)];
         habitacion.SetNeighbor(this);
 
@@ -98,13 +98,6 @@ public class Vecino : MonoBehaviour {
             }
         }
 
-        //if (leaving) {
-        //    if (spriteRenderer1.flipX) {
-        //        transform.Translate(Vector3.right * Time.deltaTime * 1.5f);
-        //    }     else {
-        //        transform.Translate(Vector3.left * Time.deltaTime * 1.5f);
-        //    }
-        //}
     }
 
     private void selectNextRoom() {

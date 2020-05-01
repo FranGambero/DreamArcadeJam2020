@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController> {
 
-    public int xPos, yPos;
+    public int floorNumber, roomNumber;
     public Animator myAnimator;
     bool usingAxisUp = false;
     bool usingAxisLeft = false;
@@ -25,8 +25,8 @@ public class PlayerController : Singleton<PlayerController> {
     public RoomController currentRoom;
 
     private void Start() {
-        xPos = 0; // Floor number
-        yPos = 1; // Room number
+        floorNumber = 0; // Floor number
+        roomNumber = 1; // Room number
 
         spriteArray = GameController.Instance.assignSpritePlayer();
 
@@ -42,18 +42,19 @@ public class PlayerController : Singleton<PlayerController> {
 
     private void Update() {
         // Esto se puede mejorar, molaria sacar la llamada a MovePosition y hacerla común
-        if (Input.GetAxisRaw("Vertical") > 0 && xPos < GameController.Instance.numFloors - 1 && yPos == 1) {
+        if (Input.GetAxisRaw("Vertical") > 0 && floorNumber < GameController.Instance.numFloors - 1 && roomNumber == 1) {
+            //if(floorNumber > GrowBuilding.Instance.CurrentFloor + 1)
             if (!usingAxisUp) {
                 usingAxisUp = true;
-                movePosition(xPos + 1, yPos);
+                movePosition(floorNumber + 1, roomNumber);
             }
         } else {
             usingAxisUp = false;
         }
 
-        if (Input.GetAxisRaw("Vertical") < 0 && xPos > 0 && yPos == 1) {
+        if (Input.GetAxisRaw("Vertical") < 0 && floorNumber > 0 && roomNumber == 1) {
             if (!usingAxisDown) {
-                movePosition(xPos - 1, yPos);
+                movePosition(floorNumber - 1, roomNumber);
                 usingAxisDown = true;
 
             }
@@ -61,23 +62,23 @@ public class PlayerController : Singleton<PlayerController> {
             usingAxisDown = false;
         }
 
-        if (Input.GetAxisRaw("Horizontal") > 0 && yPos < GameController.Instance.numRooms - 1) {
+        if (Input.GetAxisRaw("Horizontal") > 0 && roomNumber < GameController.Instance.numRooms - 1) {
             if (!usingAxisRigth) {
                 usingAxisRigth = true;
                 sprite1.flipX = false;
                 sprite2.flipX = false;
-                movePosition(xPos, yPos + 1);
+                movePosition(floorNumber, roomNumber + 1);
             }
         } else {
             usingAxisRigth = false;
         }
 
-        if (Input.GetAxisRaw("Horizontal") < 0 && yPos > 0) {
+        if (Input.GetAxisRaw("Horizontal") < 0 && roomNumber > 0) {
             if (!usingAxisLeft) {
                 usingAxisLeft = true;
                 sprite1.flipX = true;
                 sprite2.flipX = true;
-                movePosition(xPos, yPos - 1);
+                movePosition(floorNumber, roomNumber - 1);
             }
         } else {
             usingAxisLeft = false;
@@ -117,18 +118,19 @@ public class PlayerController : Singleton<PlayerController> {
 
     }
 
-    private void movePosition(int xPos, int yPos) {
-        Debug.Log(this.yPos + "y: " + yPos + ", " + this.xPos + "x: " + xPos);
-        if (yPos == 1 && this.xPos != xPos) {
-            Debug.Log("Hola");
-            GameController.Instance.Elevators[xPos].GetComponentInChildren<SpriteRenderer>().sprite = GameController.Instance.OpenElevator;
-            GameController.Instance.Elevators[this.xPos].GetComponentInChildren<SpriteRenderer>().sprite = GameController.Instance.ClosedElevator;
-        }
-        this.xPos = xPos;
-        this.yPos = yPos;
+    private void movePosition(int tmpFloorPos, int tmpRoomPos) {
+        if (tmpFloorPos <= GrowBuilding.Instance.CurrentFloor + 1) {
+            if (tmpRoomPos == 1 && this.floorNumber != tmpFloorPos) {
+                Debug.Log("Hola");
+                GameController.Instance.Elevators[tmpFloorPos].GetComponentInChildren<SpriteRenderer>().sprite = GameController.Instance.OpenElevator;
+                GameController.Instance.Elevators[this.floorNumber].GetComponentInChildren<SpriteRenderer>().sprite = GameController.Instance.ClosedElevator;
+            }
+            this.floorNumber = tmpFloorPos;
+            this.roomNumber = tmpRoomPos;
 
-        this.transform.position = GameController.Instance.roomPosition[xPos, yPos].position;
-        assignCurrentRoomController(xPos, yPos);
+            this.transform.position = GameController.Instance.roomPosition[tmpFloorPos, tmpRoomPos].position;
+            assignCurrentRoomController(tmpFloorPos, tmpRoomPos);
+        }
     }
 
     private void assignCurrentRoomController(int floorPos, int roomPos) {
