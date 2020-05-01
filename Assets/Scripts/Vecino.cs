@@ -119,6 +119,7 @@ public class Vecino : MonoBehaviour {
         } else if(!leaving){
             startPatrulla();
             habitacion.centipedesInMyVagina = true;
+            habitacion.GetComponent<RoomController>().StartGeneratingIncome();
         }
 
         if(leaving && tour.Count >= 0) {
@@ -170,6 +171,7 @@ public class Vecino : MonoBehaviour {
     [ContextMenu("Ea")]
     public void leaveRoom() {
         // Volvemos a llenar la cola de posiciones pero direccion el hall
+        habitacion.GetComponent<RoomController>().StopGeneratingIncome();
         currentFloor = targetFloor;
 
         leaving = true;
@@ -185,6 +187,7 @@ public class Vecino : MonoBehaviour {
 
         tour.Enqueue(calle.position);
 
+        // Selecciona hacia que lado va irse según donde estuviese mirando
         if (spriteRenderer1.flipX) {
             tour.Enqueue(calle.position + new Vector3(-14f, 0, 0));
         } else {

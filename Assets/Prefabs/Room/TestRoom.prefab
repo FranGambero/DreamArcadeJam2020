@@ -216,9 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33951d84ee39a443a58072b125b9a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSprite: {fileID: 0}
+  yRoom: 0
+  xFloor: 0
   availableBDTypes: 000000000200000001000000
-  breakdownList: []
   room_renderer: {fileID: 3482717567844110621}
   BD_SpawnList:
   - {fileID: 3482717566493115544}
@@ -226,6 +226,12 @@ MonoBehaviour:
   - {fileID: 3482717567295913243}
   BD_Prefab: {fileID: 6278969327303800457, guid: ee5f50646fe2caa4ba264c5498413b99,
     type: 3}
+  timer: 0
+  maxTime: 0
+  centipedesInMyVagina: 0
+  maxPointsGain: 5
+  punishPerBD: 1
+  timeBetweeenIncome: 1
   generateBD: 0
 --- !u!1 &3482717567732787235
 GameObject:

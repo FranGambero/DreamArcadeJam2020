@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 73813962}
   - component: {fileID: 73813961}
   m_Layer: 5
-  m_Name: LifesCounter
+  m_Name: MoneyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ArcadeBnB
+  m_text: Dinerico
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -640,7 +640,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 73813961}
-    characterCount: 9
+    characterCount: 8
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -9547,7 +9547,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d2e068f3f8e93488fc07e1f7ecb4cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseMenu: {fileID: 382171103}
+  pauseMenu: {fileID: 0}
+  pointstext: {fileID: 73813961}
   A1: {fileID: 1927815868}
   A2: {fileID: 763066389}
   A3: {fileID: 1266518359}

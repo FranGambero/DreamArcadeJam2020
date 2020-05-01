@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
-    public GameObject PauseMenu;
+    public GameObject pauseMenu;
+    public TextMeshProUGUI pointstext;
     public Button A1;
     public Button A2;
     public Button A3;
@@ -14,8 +16,8 @@ public class UIController : Singleton<UIController> {
     private bool isPaused = false, firstLoop = true;
 
     private void Awake() {
-        PauseMenu.SetActive(false);
-
+        //pauseMenu.SetActive(false);
+        pointstext.gameObject.SetActive(true);
     }
     private void Update() {
         if (firstLoop) {
@@ -25,6 +27,8 @@ public class UIController : Singleton<UIController> {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             setPause();
         }
+
+        pointstext.text = RoomManager.Instance.totalPoints.ToString() + " €";
     }
 
     private void setPause() {
@@ -34,7 +38,7 @@ public class UIController : Singleton<UIController> {
         } else {
             Time.timeScale = 1;
         }
-        PauseMenu.SetActive(isPaused);
+        pauseMenu.SetActive(isPaused);
     }
 
     public void ClickToolButton(BreakdownType type) {
