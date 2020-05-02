@@ -24,6 +24,10 @@ public class PlayerController : Singleton<PlayerController> {
 
     public RoomController currentRoom;
 
+    private bool isPunished;
+
+    public bool IsPunished { get => isPunished; set => isPunished = value; }
+
     private void Start() {
         floorNumber = 0; // Floor number
         roomNumber = 1; // Room number

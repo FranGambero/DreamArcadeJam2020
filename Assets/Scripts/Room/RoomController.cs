@@ -24,6 +24,9 @@ public class RoomController : MonoBehaviour
     public float minTime, maxTime;
     private List<Breakdown> breakdownList = new List<Breakdown>();
 
+    [Header("Wrong Breakdown Punish")]
+    public float punishTime = 0.5f;
+
 
     [Header("Income")]
     public int maxPointsGain;
@@ -148,34 +151,37 @@ public class RoomController : MonoBehaviour
     {
         Debug.Log("Se ha pulsado tecla");
         Breakdown auxBD;
-        switch (key)
+        if (!PlayerController.Instance.IsPunished)
         {
-            case (KeyCode.Alpha1):
-                Debug.Log(" - usando wrench");
-                //Reduce Wrench
-                auxBD = ReduceBDCountdownByType(BreakdownType.Wrench);
-                removeBD(auxBD);
+            switch (key)
+            {
+                case (KeyCode.Alpha1):
+                    Debug.Log(" - usando wrench");
+                    //Reduce Wrench
+                    auxBD = ReduceBDCountdownByType(BreakdownType.Wrench);
+                    removeBD(auxBD);
 
-                break;
+                    break;
 
-            case (KeyCode.Alpha2):
-                Debug.Log(" + usando hammer");
-                //Reduce Hammer
-                auxBD = ReduceBDCountdownByType(BreakdownType.Hammer);
-                removeBD(auxBD);
+                case (KeyCode.Alpha2):
+                    Debug.Log(" + usando hammer");
+                    //Reduce Hammer
+                    auxBD = ReduceBDCountdownByType(BreakdownType.Hammer);
+                    removeBD(auxBD);
 
-                break;
+                    break;
 
-            case (KeyCode.Alpha3):
-                Debug.Log(" * usando extinguisher");
-                //Reduce Extinguisher
-                auxBD = ReduceBDCountdownByType(BreakdownType.Extinguisher);
-                removeBD(auxBD);
+                case (KeyCode.Alpha3):
+                    Debug.Log(" * usando extinguisher");
+                    //Reduce Extinguisher
+                    auxBD = ReduceBDCountdownByType(BreakdownType.Extinguisher);
+                    removeBD(auxBD);
 
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -198,10 +204,16 @@ public class RoomController : MonoBehaviour
 
     private Breakdown ReduceBDCountdownByType(BreakdownType type)
     {
+
+        bool rightBD = false;
+
         foreach(Breakdown bd in breakdownList)
         {
             if((int)bd.GetBDType() == (int)type)
             {
+
+                rightBD = true;
+
                 if (bd.ReduceCountdown() <= 0)
                 {
                     Debug.Log("-- El CD es 0");
@@ -211,7 +223,23 @@ public class RoomController : MonoBehaviour
                 break;
             }
         }
+
+        if (!rightBD)
+            StartPunishPlayer();
+
         return null;
+    }
+
+    private void StartPunishPlayer()
+    {
+        StartCoroutine(PunishPlayer());
+    }
+
+    private IEnumerator PunishPlayer()
+    {
+        PlayerController.Instance.IsPunished = true;
+        yield return new WaitForSeconds(punishTime);
+        PlayerController.Instance.IsPunished = false;
     }
 
     #endregion
