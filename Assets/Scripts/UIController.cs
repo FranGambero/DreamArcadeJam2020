@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
-    public GameObject pauseMenu;
+    public GameObject pauseMenu, lifesPanel, lifePrefab;
+
     public TextMeshProUGUI pointstext;
     public Button A1;
     public Button A2;
@@ -63,8 +64,8 @@ public class UIController : Singleton<UIController> {
         }
     }
     private void LerpMoney() {
-        CoinAnim.SetFloat("Speed", Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0,20) / 20);
-        Debug.Log("Speed: " + Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20)/20);
+        CoinAnim.SetFloat("Speed", Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20) / 20);
+        Debug.Log("Speed: " + Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20) / 20);
         moneyTarget = RoomManager.Instance.totalPoints;
         actualMoney = (int)Mathf.LerpUnclamped(actualMoney, moneyTarget, Time.deltaTime * coinSumSpeed);
         pointstext.text = actualMoney.ToString();
@@ -73,5 +74,11 @@ public class UIController : Singleton<UIController> {
         btn.GetComponent<Image>().sprite = ToolClicked;
         yield return new WaitForSeconds(.2f);
         btn.GetComponent<Image>().sprite = ToolStay;
+    }
+
+    public void InitSetStars() {
+        for (int i = 0; i < PlayerStats.Instance.currentLifes; i++) {
+            if (lifesPanel.transform.GetChild(i) != null)
+        }
     }
 }
