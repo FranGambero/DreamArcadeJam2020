@@ -66,7 +66,7 @@ public class UIController : Singleton<UIController> {
     }
     private void LerpMoney() {
         CoinAnim.SetFloat("Speed", Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20) / 20);
-        Debug.Log("Speed: " + Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20) / 20);
+        //Debug.Log("Speed: " + Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20) / 20);
         moneyTarget = RoomManager.Instance.totalPoints;
         actualMoney = (int)Mathf.LerpUnclamped(actualMoney, moneyTarget, Time.deltaTime * coinSumSpeed);
         pointstext.text = actualMoney.ToString();

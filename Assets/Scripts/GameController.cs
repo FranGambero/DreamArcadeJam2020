@@ -28,8 +28,8 @@ public class GameController : Singleton<GameController> {
         numVecinosActivos = 0;
         roomPosition = new Transform[numFloors, numRooms];
 
-        maxTime = 8;
-        minTime = 3;
+        maxTime = 8; // Mismo que lo de abajo pero maximo
+        minTime = 5; // Tiempo minimo que tardará en aparecer el vecino
         timer = 0;
 
     }
@@ -40,11 +40,19 @@ public class GameController : Singleton<GameController> {
 
     private void Update() {
         timer += Time.deltaTime;
-        if (timer >= maxTime && numVecinosActivos < 6) { // Los vecinos maximos que queramos mostrar de momento
-            numVecinosActivos++;
+        numVecinosActivos = RoomManager.Instance.getRoomControllerList().FindAll(o => o.HasNeighbor()).Count;
+        bool habitacionesLibres = RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor() && o.isAvailable()).Count > 0;
+        Debug.LogWarning("Me estas llamando " + numVecinosActivos + " hay libres " + RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor() && o.isAvailable()).Count);
+        if (timer >= maxTime && habitacionesLibres){ // numVecinosActivos < 6) { // Los vecinos maximos que queramos mostrar de momento
+            //numVecinosActivos++;
             spawnVecino();
-            timer = 0;
+            newTimer();
         }
+    }
+
+    private void newTimer() {
+        timer = 0;
+        maxTime = Random.Range(minTime, minTime + numVecinosActivos*2); // Curva de evolucion del tiempo que tardan en aparecer los vecinos, habria que adaptarla
     }
 
     private void fillMatrix() {
@@ -65,7 +73,7 @@ public class GameController : Singleton<GameController> {
     public Sprite[] assignSpriteVecino() {
         Sprite[] arrayResult = new Sprite[2];
 
-        int spriteIndex = Random.Range(0, spritesLibres.Count);
+        int spriteIndex = UnityEngine.Random.Range(0, spritesLibres.Count);
 
         // Modificar si aumentaramos la cantidad de sprites por animacion
         if (spriteIndex % 2 != 0) {
