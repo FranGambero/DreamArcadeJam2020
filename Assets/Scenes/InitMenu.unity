@@ -10314,8 +10314,6 @@ MonoBehaviour:
   - {fileID: -2379475321107421134, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -503901180175678524, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 8946705397102689618, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -5505311032467051082, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -8979315964800192852, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -5215995643184021239, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 2615503336063654503, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -7974172980471477819, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
@@ -10340,8 +10338,6 @@ MonoBehaviour:
   - {fileID: 5506848263174021956, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 6033056114807278358, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 7043008718251831072, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -2820575323224343157, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
-  - {fileID: -1862069028749304982, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 2118813452652936285, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 6426834498331582604, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 7339439363145618530, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
@@ -10366,6 +10362,8 @@ MonoBehaviour:
   - {fileID: 7841247780761197631, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: 1170884223381543414, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -9148767526149858083, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
+  - {fileID: -3157774789737742378, guid: b50ac6a24ef564443a0fea922ea7e7eb, type: 3}
+  - {fileID: 3555269399485174924, guid: b50ac6a24ef564443a0fea922ea7e7eb, type: 3}
   spritesCaserxLibres:
   - {fileID: -5505311032467051082, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
   - {fileID: -8979315964800192852, guid: b2f0c437f913dc54197ca0aebabe94b7, type: 3}
@@ -28763,7 +28761,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Instructons
+  m_text: 'Instructions
 
 '
   m_isRightToLeft: 0
@@ -28794,7 +28792,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 29.65
+  m_fontSize: 27.2
   m_fontSizeBase: 30.7
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -28835,7 +28833,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1868895338}
-    characterCount: 12
+    characterCount: 13
     spriteCount: 0
     spaceCount: 1
     wordCount: 1
