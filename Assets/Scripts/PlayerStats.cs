@@ -10,14 +10,13 @@ public class PlayerStats : Singleton<PlayerStats>
     public int maxLifes, currentLifes;
     public TextMeshProUGUI lifesText;
     public List<GameObject> pilaVidas;
-    public GameObject LifesPanel;
     public GameObject Corazao;
 
     private void Awake() {
         pilaVidas = new List<GameObject>();
 
         maxLifes = 5;
-        currentLifes = 5;
+        currentLifes = 2;
 
         assignLifes();
     }
