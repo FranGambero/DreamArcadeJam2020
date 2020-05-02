@@ -22,6 +22,7 @@ public class UIController : Singleton<UIController> {
     private void Awake() {
         //pauseMenu.SetActive(false);
         pointstext.gameObject.SetActive(true);
+        InitSetStars();
     }
     private void Update() {
         if (firstLoop) {
@@ -78,7 +79,18 @@ public class UIController : Singleton<UIController> {
 
     public void InitSetStars() {
         for (int i = 0; i < PlayerStats.Instance.currentLifes; i++) {
-            if (lifesPanel.transform.GetChild(i) != null)
+            if (lifesPanel.transform.GetChild(i) != null) {
+                StartCoroutine(InitStart(lifesPanel.transform.GetChild(i).gameObject));
+            }
         }
+    }
+    IEnumerator InitStart(GameObject star) {
+        for (int i = 0; i < 3; i++) {
+            star.SetActive(true);
+            yield return new WaitForSeconds(.2f);
+            star.SetActive(false);
+        }
+        star.SetActive(true);
+
     }
 }
