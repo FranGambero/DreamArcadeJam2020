@@ -20,9 +20,11 @@ public class Vecino : MonoBehaviour {
     private Coroutine patrolCoroutine;
 
     private int targetFloor, targetRoom, currentFloor;
+    public int numEnfados;
 
     [ContextMenu("VIVA ZAPATERO")]
     public void initVecino() {
+        numEnfados = 3;
         currentFloor = 0;
         myAnimator = GetComponent<Animator>();
         startSpriteAnim();
@@ -161,14 +163,16 @@ public class Vecino : MonoBehaviour {
         }
     }
 
-    [ContextMenu("Ea")]
-    public void leaveRoom() {
-        // Volvemos a llenar la cola de posiciones pero direccion el hall
+    [ContextMenu("Mata vecino")]
+    public void leaveRoom(bool enfadao = false) {
+        if (enfadao) {
+            PlayerStats.Instance.performDamage();
+        }
+
         habitacion.GetComponent<RoomController>().StopGeneratingIncome();
         currentFloor = targetFloor;
 
         leaving = true;
-        moveHorizontal = true;
         StopCoroutine(patrolCoroutine);
 
         Transform planta;
@@ -189,6 +193,12 @@ public class Vecino : MonoBehaviour {
 
         nextRoom = tour.Dequeue();
         moveHorizontal = true;
+        flipDirection();
+    }
+
+    [ContextMenu("Mata vecino test")]
+    public void testLeave() {
+        leaveRoom();
     }
 
     private IEnumerator setInactive() {

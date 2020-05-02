@@ -28,11 +28,15 @@ public class PlayerStats : Singleton<PlayerStats>
         Debug.Log("Tienes vidas: " + pilaVidas);
     }
 
+    public void performDamage() {
+        performDamage(1);
+    }
+
     public void performDamage(int damage) {
         currentLifes -= damage;
 
         assignLifes();
-        updateLifes();
+        //updateLifes();
 
         if(currentLifes <= 0) {
             marryPlayer();

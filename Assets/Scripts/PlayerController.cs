@@ -142,18 +142,6 @@ public class PlayerController : Singleton<PlayerController> {
         currentRoom = RoomManager.Instance.getRoomController(floorPos, roomPos);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        // Cambiar por las zonas de las salas
-        if (collision.CompareTag("Item")) {
-            Destroy(collision.gameObject);
-        }
-
-        if (collision.CompareTag("Heart")) {
-            Debug.Log("Te quito vida wey");
-            PlayerStats.Instance.performDamage(collision.gameObject.GetComponent<ItemDrop>().damage);
-            Destroy(collision.gameObject);
-        }
-    }
     private IEnumerator ShowHand(Sprite tool) {
         Hand.GetComponent<SpriteRenderer>().sprite = tool;
         Hand.SetActive(true);
