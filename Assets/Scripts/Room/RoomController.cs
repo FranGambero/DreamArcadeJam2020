@@ -7,20 +7,23 @@ public class RoomController : MonoBehaviour
     #region Variables
 
     public int yRoom, xFloor;
+    
     private Transform roomTrans;
     private Sprite roomSprite;
-
     private Vecino neighbor;
-
-    public List<BreakdownType> availableBDTypes = new List<BreakdownType>{BreakdownType.Wrench, BreakdownType.Hammer, BreakdownType.Extinguisher};
-    private List<Breakdown> breakdownList = new List<Breakdown>();
+    public bool centipedesInMyVagina = false;
     public SpriteRenderer room_renderer;
 
-    public List<GameObject> BD_SpawnList;
+    
+    [Header("Breakdown")]
 
+    public List<BreakdownType> availableBDTypes = new List<BreakdownType>{BreakdownType.Wrench, BreakdownType.Hammer, BreakdownType.Extinguisher};
+    public List<GameObject> BD_SpawnList;
     public GameObject BD_Prefab;
-    public float timer, maxTime;
-    public bool centipedesInMyVagina = false;
+
+    public float minTime, maxTime;
+    private List<Breakdown> breakdownList = new List<Breakdown>();
+
 
     [Header("Income")]
     public int maxPointsGain;
@@ -29,39 +32,22 @@ public class RoomController : MonoBehaviour
 
     private IEnumerator income_Routine;
 
-    #endregion
 
-    //TEST
-    public bool generateBD = false;
+    [Header("Progression")]
+    public List<int> pointsForProgression;
+    public int percentageToReduce = 30;
+
+
+    #endregion
 
     private void Awake()
     {
-        timer = 0;
         room_renderer.sprite = roomSprite;
     }
 
-    private void Start() {
-        
-        maxTime = Random.Range(GameController.Instance.minTime, GameController.Instance.maxTime);
-    }
-
-    private void Update()
+    private void Start()
     {
-        //TEST      
-        if (HasNeighbor() && centipedesInMyVagina) {
-            if (timer >= maxTime) {
-                timer = 0;
-                CreateBreakdown();
-            } else {
-                timer += Time.deltaTime;
-            }
-        }
-
-        if (generateBD == true)
-        {
-            CreateBreakdown();
-            generateBD = false;
-        }
+        StartCoroutine(GenerateBreakdownsByTimer());
     }
 
     #region Setters
@@ -100,6 +86,8 @@ public class RoomController : MonoBehaviour
 
     #endregion
 
+    #region Getters
+
     public bool HasNeighbor()
     {
         return neighbor != null ? true : false;
@@ -109,6 +97,8 @@ public class RoomController : MonoBehaviour
         return xFloor <= GrowBuilding.Instance.CurrentFloor + 1;
     }
 
+    #endregion
+
     #region Breakdown Creation
     private void CreateBreakdown()
     {
@@ -117,6 +107,21 @@ public class RoomController : MonoBehaviour
             Breakdown newBD = Instantiate(BD_Prefab, RandomSpawnPoint()).GetComponent<Breakdown>();
             newBD.AssignRandomBDType();
             breakdownList.Add(newBD);
+        }
+    }
+
+    private IEnumerator GenerateBreakdownsByTimer()
+    {
+        while (true)
+        {
+            if (HasNeighbor() && centipedesInMyVagina)
+            {
+                CheckProgression();
+                yield return new WaitForSeconds(Random.Range(minTime,maxTime));
+                CreateBreakdown();
+            }
+            else
+                yield return null;
         }
     }
 
@@ -236,6 +241,24 @@ public class RoomController : MonoBehaviour
     private int CalculateIncome()
     {
         return Mathf.Clamp((maxPointsGain - (punishPerBD * breakdownList.Count)),0,maxPointsGain);
+    }
+
+    private void CheckProgression()
+    {
+        if(pointsForProgression.Count != 0)
+        {
+            if (RoomManager.Instance.totalPoints >= pointsForProgression[0])
+            {
+                DoProgress();
+                pointsForProgression.RemoveAt(0);
+            }
+        }
+    }
+
+    private void DoProgress()
+    {
+        maxTime = ((100 - percentageToReduce) * maxTime) / 100;
+        minTime = ((100 - percentageToReduce) * minTime) / 100;
     }
 
     #endregion
