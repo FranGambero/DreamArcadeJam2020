@@ -22,7 +22,9 @@ public class RoomController : MonoBehaviour
     public GameObject BD_Prefab;
 
     public float minTime, maxTime;
+
     private List<Breakdown> breakdownList = new List<Breakdown>();
+    private Coroutine generateBreakdown_Routine;
 
     [Header("Wrong Breakdown Punish")]
     public float punishTime = 0.5f;
@@ -50,7 +52,7 @@ public class RoomController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(GenerateBreakdownsByTimer());
+        generateBreakdown_Routine = StartCoroutine(GenerateBreakdownsByTimer());
     }
 
     #region Setters
@@ -102,6 +104,38 @@ public class RoomController : MonoBehaviour
 
     #endregion
 
+    #region Room Management
+
+    public void ResetRoom()
+    {
+        Debug.Log("Reset Room");
+        centipedesInMyVagina = false;
+        StopGenerateBreakdownsByTimer();
+        StopGeneratingIncome();
+
+        foreach(Breakdown bd in breakdownList)
+        {
+            StopAngerTimer(bd);
+        }
+
+        breakdownList.ForEach(o => ResetBD(o));
+
+        breakdownList = new List<Breakdown>();
+        neighbor = null;
+        Debug.Log("Room Reseted ++");
+
+        generateBreakdown_Routine = StartCoroutine(GenerateBreakdownsByTimer());
+    }
+
+    private void ResetBD(Breakdown bd)
+    {
+        freeSpawnPoint(bd);
+        Destroy(bd.gameObject);
+        Debug.Log("Reseting BD");
+    }
+
+    #endregion
+
     #region Breakdown Creation
     private void CreateBreakdown()
     {
@@ -109,6 +143,7 @@ public class RoomController : MonoBehaviour
         {
             Breakdown newBD = Instantiate(BD_Prefab, RandomSpawnPoint()).GetComponent<Breakdown>();
             newBD.AssignRandomBDType();
+            newBD.Anger_Routine = StartCoroutine(ReduceAngerTimer(newBD));
             breakdownList.Add(newBD);
         }
     }
@@ -117,16 +152,27 @@ public class RoomController : MonoBehaviour
     {
         while (true)
         {
-            if (HasNeighbor() && centipedesInMyVagina)
+            if (!RoomManager.Instance.GODMODE)
             {
-                CheckProgression();
-                yield return new WaitForSeconds(Random.Range(minTime,maxTime));
-                CreateBreakdown();
+                if (HasNeighbor() && centipedesInMyVagina)
+                {
+                    CheckProgression();
+                    yield return new WaitForSeconds(Random.Range(minTime, maxTime));
+                    CreateBreakdown();
+                }
+                else
+                    yield return null;
             }
-            else
-                yield return null;
         }
     }
+
+
+    private void StopGenerateBreakdownsByTimer()
+    {
+        if (generateBreakdown_Routine != null)
+            StopCoroutine(generateBreakdown_Routine);
+    }
+
 
     private Transform RandomSpawnPoint()
     {
@@ -141,6 +187,28 @@ public class RoomController : MonoBehaviour
         int randAux = (int)Random.Range(0, availableBDTypes.Count);
         availableBDTypes.Remove((BreakdownType)randAux);
         return (BreakdownType)randAux;
+    }
+
+    #endregion
+
+    #region Breakdown Anger Management
+
+    private IEnumerator ReduceAngerTimer(Breakdown bd)
+    {
+        while (neighbor.numEnfados > 0)
+        {
+            yield return new WaitForSeconds(bd.timeForAnger);
+            neighbor.numEnfados -= 1;
+        }
+
+        if(neighbor.numEnfados <= 0)
+            neighbor.leaveRoom(true);
+    }
+
+    private void StopAngerTimer(Breakdown bd)
+    {
+        if (bd.Anger_Routine != null)
+            StopCoroutine(bd.Anger_Routine);
     }
 
     #endregion
@@ -192,6 +260,7 @@ public class RoomController : MonoBehaviour
         {
             // quitar de lista
             freeSpawnPoint(bd);
+            StopAngerTimer(bd);
             breakdownList.Remove(bd);
             Destroy(bd.gameObject);
         }
@@ -255,7 +324,8 @@ public class RoomController : MonoBehaviour
 
     public void StopGeneratingIncome()
     {
-        StopCoroutine(income_Routine);
+        if(income_Routine != null)
+            StopCoroutine(income_Routine);
     }
     private IEnumerator generateIncome()
     {

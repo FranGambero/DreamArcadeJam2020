@@ -16,6 +16,8 @@ public class RoomManager : MonoBehaviour {
 
     private RoomController _rc;
 
+    public bool GODMODE = false;
+
     //TEST
     public bool generateRoom = false;
 

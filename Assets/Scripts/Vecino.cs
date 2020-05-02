@@ -169,7 +169,8 @@ public class Vecino : MonoBehaviour {
             PlayerStats.Instance.performDamage();
         }
 
-        habitacion.GetComponent<RoomController>().StopGeneratingIncome();
+        //habitacion.GetComponent<RoomController>().StopGeneratingIncome();
+        habitacion.GetComponent<RoomController>().ResetRoom();
         currentFloor = targetFloor;
 
         leaving = true;

@@ -17,6 +17,11 @@ public class Breakdown : MonoBehaviour
     private BreakdownType bd_type;
     private int bd_countdown;
 
+    public int timeForAnger = 10;
+
+    private Coroutine angeranger_Routine;
+    public Coroutine Anger_Routine { get => angeranger_Routine; set => angeranger_Routine = value; }
+
     #endregion
 
     public void Awake()
