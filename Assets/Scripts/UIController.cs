@@ -78,11 +78,11 @@ public class UIController : Singleton<UIController> {
     }
 
     public void InitSetStars() {
-        for (int i = 0; i < PlayerStats.Instance.currentLifes; i++) {
-            if (lifesPanel.transform.GetChild(i) != null) {
-                StartCoroutine(InitStart(lifesPanel.transform.GetChild(i).gameObject));
-            }
-        }
+        //for (int i = 0; i < PlayerStats.Instance.currentLifes; i++) {
+        //    if (lifesPanel.transform.GetChild(i) != null) {
+        //        StartCoroutine(InitStart(lifesPanel.transform.GetChild(i).gameObject));
+        //    }
+        //}
     }
     IEnumerator InitStart(GameObject star) {
         for (int i = 0; i < 3; i++) {
