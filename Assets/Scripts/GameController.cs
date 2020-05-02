@@ -19,6 +19,7 @@ public class GameController : Singleton<GameController> {
     public float timer, maxTime, minTime;
     public List<GameObject> listaVecinos;
     private int numVecinosActivos;
+    public bool isMainMenu = false;
 
     private void Awake() {
         numRooms = 3;
@@ -58,7 +59,7 @@ public class GameController : Singleton<GameController> {
             }
         }
 
-        GrowBuilding.Instance.SetInPostion(0);
+       // GrowBuilding.Instance.SetInPostion(0);
     }
 
     public Sprite[] assignSpriteVecino() {

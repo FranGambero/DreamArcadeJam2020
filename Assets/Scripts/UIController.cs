@@ -13,8 +13,11 @@ public class UIController : Singleton<UIController> {
     public Button A3;
     public Sprite ToolStay, ToolClicked;
     public Animator MainCameraAnim;
+    public Animator CoinAnim;
+    public float coinSumSpeed = 100;
     private bool isPaused = false, firstLoop = true;
-
+    private int moneyTarget;
+    private int actualMoney;
     private void Awake() {
         //pauseMenu.SetActive(false);
         pointstext.gameObject.SetActive(true);
@@ -27,8 +30,8 @@ public class UIController : Singleton<UIController> {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             setPause();
         }
+        LerpMoney();
 
-        pointstext.text = RoomManager.Instance.totalPoints.ToString() + " €";
     }
 
     private void setPause() {
@@ -59,7 +62,13 @@ public class UIController : Singleton<UIController> {
                 break;
         }
     }
-
+    private void LerpMoney() {
+        CoinAnim.SetFloat("Speed", Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0,20) / 20);
+        Debug.Log("Speed: " + Mathf.Clamp((float)moneyTarget - (float)actualMoney, 0, 20)/20);
+        moneyTarget = RoomManager.Instance.totalPoints;
+        actualMoney = (int)Mathf.LerpUnclamped(actualMoney, moneyTarget, Time.deltaTime * coinSumSpeed);
+        pointstext.text = actualMoney.ToString();
+    }
     IEnumerator ChangeToolSprite(Button btn) {
         btn.GetComponent<Image>().sprite = ToolClicked;
         yield return new WaitForSeconds(.2f);

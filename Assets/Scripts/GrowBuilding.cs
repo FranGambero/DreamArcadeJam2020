@@ -40,13 +40,14 @@ public class GrowBuilding : Singleton<GrowBuilding> {
 
     private void Update() {
         // Maybe move it to another script
-        if (RoomManager.Instance.totalPoints > levelPointAmounts[0] && CurrentFloor == 0) {
-            SetInPostion(1);
-        } else if (RoomManager.Instance.totalPoints > levelPointAmounts[1] && CurrentFloor == 1) {
-            SetInPostion(2);
-        } else if (RoomManager.Instance.totalPoints > levelPointAmounts[2] && CurrentFloor == 2) {
-            SetInPostion(3);
-        }
+        if (!GameController.Instance.isMainMenu)
+            if (RoomManager.Instance.totalPoints > levelPointAmounts[0] && CurrentFloor == 0) {
+                SetInPostion(1);
+            } else if (RoomManager.Instance.totalPoints > levelPointAmounts[1] && CurrentFloor == 1) {
+                SetInPostion(2);
+            } else if (RoomManager.Instance.totalPoints > levelPointAmounts[2] && CurrentFloor == 2) {
+                SetInPostion(3);
+            }
     }
 
     public void MoveUpFloor() {
