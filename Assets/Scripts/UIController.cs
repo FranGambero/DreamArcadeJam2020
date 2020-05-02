@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
@@ -38,7 +39,7 @@ public class UIController : Singleton<UIController> {
 
     }
 
-    private void setPause() {
+    public void setPause() {
         isPaused = !isPaused;
         if (isPaused) {
             Time.timeScale = 0;
@@ -46,6 +47,22 @@ public class UIController : Singleton<UIController> {
             Time.timeScale = 1;
         }
         pauseMenu.SetActive(isPaused);
+    }
+
+    public void Restart() {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
+    }
+    public void Back() {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+    public void OpenOptions() {
+
+    }
+    public void Quit() {
+        Time.timeScale = 1;
+        Application.Quit();
     }
 
     public void ClickToolButton(BreakdownType type) {

@@ -19,12 +19,23 @@ public class UIMainMenuManager : MonoBehaviour {
     int spritesIndex = 0;
     public EventSystem eventSystem;
 
+    [Header("Sounds")]
+    public Slider mainThemeSlider;
+    public Slider EfectsThemeSlider;
+
     private void Start() {
         PlayerSpriteRenderer1.sprite = GameController.Instance.spritesCaserxLibres[spritesIndex];
         PlayerSpriteRenderer2.sprite = GameController.Instance.spritesCaserxLibres[spritesIndex + 1];
         eventSystem.SetSelectedGameObject(startBtn.gameObject);
+        SetManagertVolumes();
     }
-
+    private void SetManagertVolumes() {
+        mainThemeSlider.value = AudioManager.Instance.GetVolume("Theme");
+        mainThemeSlider.onValueChanged.RemoveAllListeners();
+        mainThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Theme", vol)); 
+        EfectsThemeSlider.onValueChanged.RemoveAllListeners();
+        EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Effects", vol));
+    }
     private void Update() {
         if (starting) {
             if (eventSystem.currentSelectedGameObject == null) {
