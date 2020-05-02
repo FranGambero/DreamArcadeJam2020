@@ -551,7 +551,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05375, y: 0.86877507}
   m_AnchorMax: {x: 0.30625, y: 0.98}
-  m_AnchoredPosition: {x: 0.7999878, y: 0}
+  m_AnchoredPosition: {x: 0.79997253, y: 0}
   m_SizeDelta: {x: -2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &73813961
@@ -7503,6 +7503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1032168103}
   - component: {fileID: 1032168104}
+  - component: {fileID: 1032168105}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -7703,6 +7704,22 @@ MonoBehaviour:
   - {fileID: 1974960118}
   - {fileID: 112703422}
   isMainMenu: 0
+--- !u!114 &1032168105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032168102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07198ee61152f8d4f8d7f9953e07e75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLifes: 5
+  currentLifes: 5
+  pilaVidas: []
+  Corazao: {fileID: 9196866271671946336, guid: e2fe033c06305aa4cb43d651ed620c04, type: 3}
 --- !u!1 &1041492417
 GameObject:
   m_ObjectHideFlags: 0
@@ -31954,6 +31971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Corazao
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196866271671946336, guid: e2fe033c06305aa4cb43d651ed620c04,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 365729009038753076, guid: e2fe033c06305aa4cb43d651ed620c04,
         type: 3}
