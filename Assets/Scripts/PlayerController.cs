@@ -111,15 +111,18 @@ public class PlayerController : Singleton<PlayerController> {
         }
     }
     private void KeyPressed(KeyCode key, BreakdownType b_Type) {
-        if (currentRoom != null)
-            currentRoom.ReduceBDCountdown(key);
-        if (handCoroutine != null)
-            StopCoroutine(handCoroutine);
-        UIController.Instance.ClickToolButton(b_Type);
-        if (handCoroutine != null)
-            StopCoroutine(handCoroutine);
-        handCoroutine = StartCoroutine(ShowHand(GetSprite(b_Type)));
+        if (!IsPunished) {
 
+            if (currentRoom != null)
+                currentRoom.ReduceBDCountdown(key);
+            if (handCoroutine != null)
+                StopCoroutine(handCoroutine);
+            UIController.Instance.ClickToolButton(b_Type);
+            if (handCoroutine != null)
+                StopCoroutine(handCoroutine);
+            handCoroutine = StartCoroutine(ShowHand(GetSprite(b_Type)));
+
+        }
     }
 
     private void movePosition(int tmpFloorPos, int tmpRoomPos) {
@@ -147,6 +150,7 @@ public class PlayerController : Singleton<PlayerController> {
         Hand.SetActive(true);
         yield return new WaitForSeconds(.5f);
         Hand.SetActive(false);
+        IsPunished = false;
 
     }
     public Sprite GetSprite(BreakdownType type) {

@@ -239,7 +239,7 @@ public class RoomController : MonoBehaviour
     {
         PlayerController.Instance.IsPunished = true;
         yield return new WaitForSeconds(punishTime);
-        PlayerController.Instance.IsPunished = false;
+       // PlayerController.Instance.IsPunished = false;
     }
 
     #endregion

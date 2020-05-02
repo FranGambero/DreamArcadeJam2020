@@ -8,12 +8,12 @@ using UnityEngine.UI;
 
 public class UIMainMenuManager : MonoBehaviour {
     public Animator facadeAnim;
-    public Animator menuAnim;
+    public Animator menuAnim, optionsMenuAnim, instructionsMenuAnim;
     public Animator cameraAnim;
     public GameObject SelectPlayerPanel;
-    public Button startBtn;
+    public Button startBtn, optionsBtn, instructionsBtn;
     public Button playBtn;
-    private bool starting, left, right = false;
+    private bool starting, left, right, inOptions, inInstructions = false;
     public SpriteRenderer PlayerSpriteRenderer1;
     public SpriteRenderer PlayerSpriteRenderer2;
     int spritesIndex = 0;
@@ -32,7 +32,7 @@ public class UIMainMenuManager : MonoBehaviour {
 
             }
             if (Input.GetKeyDown(KeyCode.Escape)) {
-                BackMainMenu();
+                BackMainMenu(0);
             }
             if (Input.GetAxisRaw("Horizontal") > 0) {
                 if (!right) {
@@ -51,6 +51,16 @@ public class UIMainMenuManager : MonoBehaviour {
                 left = false;
             }
 
+        } else if (inOptions) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                BackMainMenu(1);
+            }
+
+        } else if (inInstructions) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                BackMainMenu(2);
+            }
+
         } else {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 Application.Quit();
@@ -62,13 +72,31 @@ public class UIMainMenuManager : MonoBehaviour {
         }
     }
 
-    private void BackMainMenu() {
-        starting = false;
-        cameraAnim.Play("ZoomOutCameraAnim");
-        facadeAnim.Play("FacadeInAnim");
+    private void BackMainMenu(int index) {
+        switch (index) {
+            case 0:
+                starting = false;
+                cameraAnim.Play("ZoomOutCameraAnim");
+                facadeAnim.Play("FacadeInAnim");
+                SelectPlayerPanel.SetActive(false);
+                eventSystem.SetSelectedGameObject(startBtn.gameObject);
+                break;
+            case 1:
+                inOptions = false;
+                cameraAnim.Play("MoveLeftCamAnim");
+                optionsMenuAnim.Play("OtherMenuOutAnim");
+                eventSystem.SetSelectedGameObject(optionsBtn.gameObject);
+                break;
+            case 2:
+                inInstructions = false;
+                cameraAnim.Play("MoveLeftCamAnim");
+                instructionsMenuAnim.Play("OtherMenuOutAnim");
+                eventSystem.SetSelectedGameObject(instructionsBtn.gameObject);
+                break;
+            default:
+                break;
+        }
         menuAnim.Play("MainMenuInAnim");
-        SelectPlayerPanel.SetActive(false);
-        eventSystem.SetSelectedGameObject(startBtn.gameObject);
 
     }
 
@@ -106,5 +134,23 @@ public class UIMainMenuManager : MonoBehaviour {
     public void StartGame() {
         PlayerPrefs.SetInt(GameController.Instance.PLAYER_SELECTED_KEY, spritesIndex);
         SceneManager.LoadScene(1);
+    }
+
+    public void GoOptions() {
+        inOptions = true;
+        cameraAnim.Play("MoveRightCamAnim");
+        menuAnim.Play("MainMenuOutAnim");
+        optionsMenuAnim.gameObject.SetActive(true);
+        optionsMenuAnim.Play("OtherMenuInAnim");
+    }
+    public void GoCredits() {
+        SceneManager.LoadScene("Credits");
+    }
+    public void GoInstructions() {
+        inInstructions = true;
+        cameraAnim.Play("MoveRightCamAnim");
+        menuAnim.Play("MainMenuOutAnim");
+        instructionsMenuAnim.gameObject.SetActive(true);
+        instructionsMenuAnim.Play("OtherMenuInAnim");
     }
 }
