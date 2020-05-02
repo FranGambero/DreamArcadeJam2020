@@ -22,6 +22,8 @@ public class UIController : Singleton<UIController> {
     private void Awake() {
         //pauseMenu.SetActive(false);
         pointstext.gameObject.SetActive(true);
+    }
+    private void Start() {
         InitSetStars();
     }
     private void Update() {
@@ -78,17 +80,33 @@ public class UIController : Singleton<UIController> {
     }
 
     public void InitSetStars() {
-        //for (int i = 0; i < PlayerStats.Instance.currentLifes; i++) {
-        //    if (lifesPanel.transform.GetChild(i) != null) {
-        //        StartCoroutine(InitStart(lifesPanel.transform.GetChild(i).gameObject));
-        //    }
-        //}
+        for (int i = 0; i < PlayerStats.Instance.currentLifes; i++) {
+            if (lifesPanel.transform.GetChild(i) != null) {
+                StartCoroutine(InitStart(lifesPanel.transform.GetChild(i).gameObject));
+            }
+        }
+    }
+    public void HideLife(int index) {
+        StartCoroutine(HideStar(lifesPanel.transform.GetChild(index).gameObject));
+    }
+    IEnumerator HideStar(GameObject star) {
+
+        for (int i = 0; i < 3; i++) {
+            star.SetActive(false);
+            yield return new WaitForSeconds(.2f);
+            star.SetActive(true);
+            yield return new WaitForSeconds(.2f);
+        }
+        star.SetActive(false);
+
     }
     IEnumerator InitStart(GameObject star) {
+
         for (int i = 0; i < 3; i++) {
             star.SetActive(true);
             yield return new WaitForSeconds(.2f);
             star.SetActive(false);
+            yield return new WaitForSeconds(.2f);
         }
         star.SetActive(true);
 

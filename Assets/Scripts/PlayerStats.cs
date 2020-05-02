@@ -8,34 +8,28 @@ using UnityEngine.UI;
 public class PlayerStats : Singleton<PlayerStats>
 {
     public int maxLifes, currentLifes;
-    public TextMeshProUGUI lifesText;
     public List<GameObject> pilaVidas;
     public GameObject Corazao;
 
     private void Awake() {
         pilaVidas = new List<GameObject>();
-
-        maxLifes = 5;
-        currentLifes = 2;
-
         assignLifes();
     }
 
     private void assignLifes() {
         // Cambiar por asignacion de imagenes segun nivel dificultad
-        lifesText.text = currentLifes.ToString();
 
         Debug.Log("Tienes vidas: " + pilaVidas);
     }
-
+    [ContextMenu("Damage")]
     public void performDamage() {
         performDamage(1);
     }
 
     public void performDamage(int damage) {
+        UIController.Instance.HideLife(currentLifes-1);
         currentLifes -= damage;
 
-        assignLifes();
         //updateLifes();
 
         if(currentLifes <= 0) {
