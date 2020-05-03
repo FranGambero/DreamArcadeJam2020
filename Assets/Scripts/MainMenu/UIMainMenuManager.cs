@@ -83,7 +83,7 @@ public class UIMainMenuManager : MonoBehaviour {
         }
     }
 
-    private void BackMainMenu(int index) {
+    public void BackMainMenu(int index) {
         switch (index) {
             case 0:
                 starting = false;
