@@ -42,9 +42,7 @@ public class GameController : Singleton<GameController> {
         timer += Time.deltaTime;
         numVecinosActivos = RoomManager.Instance.getRoomControllerList().FindAll(o => o.HasNeighbor()).Count;
         bool habitacionesLibres = RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor() && o.isAvailable()).Count > 0;
-        Debug.LogWarning("Me estas llamando " + numVecinosActivos + " hay libres " + RoomManager.Instance.getRoomControllerList().FindAll(o => !o.HasNeighbor() && o.isAvailable()).Count);
-        if (timer >= maxTime && habitacionesLibres){ // numVecinosActivos < 6) { // Los vecinos maximos que queramos mostrar de momento
-            //numVecinosActivos++;
+        if (timer >= maxTime && habitacionesLibres){ 
             spawnVecino();
             newTimer();
         }
@@ -108,10 +106,12 @@ public class GameController : Singleton<GameController> {
     }
 
     private void spawnVecino() {
-        GameObject nextVecino = listaVecinos.Find(item => item.activeInHierarchy == false);
-        nextVecino.SetActive(true);
-        nextVecino.GetComponent<Vecino>().initVecino();
-
-
+        // Esto tampoco funciona :(
+        if (listaVecinos.Count >= numVecinosActivos) {
+            Debug.LogWarning("Total vecinos " + listaVecinos.Count + " y hay: " + numVecinosActivos);
+            GameObject nextVecino = listaVecinos.Find(item => item.activeInHierarchy == false);
+            nextVecino.SetActive(true);
+            nextVecino.GetComponent<Vecino>().initVecino();
+        }
     }
 }

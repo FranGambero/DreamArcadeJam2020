@@ -31,7 +31,7 @@ public class Vecino : MonoBehaviour {
 
         tour = new Queue<Vector3>();
         tour.Enqueue(calle.position);
-        moveHorizontal = false;
+        moveHorizontal = leaving = false;
 
         Invoke(nameof(assignRoom), 1);
     }
