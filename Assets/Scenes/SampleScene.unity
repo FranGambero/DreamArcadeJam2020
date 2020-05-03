@@ -743,7 +743,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05375, y: 0.86877507}
   m_AnchorMax: {x: 0.30625, y: 0.98}
-  m_AnchoredPosition: {x: 0.798996, y: 0}
+  m_AnchoredPosition: {x: 0.7988434, y: 0}
   m_SizeDelta: {x: -2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &73813961
@@ -11496,6 +11496,8 @@ MonoBehaviour:
   lifesPanel: {fileID: 1129747928}
   lifePrefab: {fileID: 9196866271671946336, guid: e2fe033c06305aa4cb43d651ed620c04,
     type: 3}
+  mainThemeSlider: {fileID: 1817831473}
+  EfectsThemeSlider: {fileID: 663413284}
   pointstext: {fileID: 73813961}
   A1: {fileID: 1927815868}
   A2: {fileID: 763066389}
