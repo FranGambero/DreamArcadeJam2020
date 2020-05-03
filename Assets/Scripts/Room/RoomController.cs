@@ -31,7 +31,7 @@ public class RoomController : MonoBehaviour
     public float punishTime = 0.5f;
 
     [Header("Anger")]
-    public int timeForAnger = 10;
+    public int timeForAnger = 5;
 
 
     [Header("Income")]

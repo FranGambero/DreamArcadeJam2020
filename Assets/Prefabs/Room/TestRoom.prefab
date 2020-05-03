@@ -230,11 +230,12 @@ MonoBehaviour:
   minTime: 5
   maxTime: 10
   punishTime: 2
+  timeForAnger: 10
   maxPointsGain: 5
   punishPerBD: 1
   timeBetweeenIncome: 1
-  pointsForProgression: 
-  percentageToReduce: 0
+  pointsForProgression: 58020000d0070000
+  percentageToReduce: 30
 --- !u!1 &3482717567732787235
 GameObject:
   m_ObjectHideFlags: 0

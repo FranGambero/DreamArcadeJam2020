@@ -12,7 +12,7 @@ public class GrowBuilding : Singleton<GrowBuilding> {
     public int CurrentFloor { get; private set; }
     public Action BuildStopMovingAction;
     public Action BuildStartMovingAction;
-    private int[] levelPointAmounts = { 100, 300, 600 };
+    private int[] levelPointAmounts = { 600, 2000, 6000 };
 
     #region TEST
     [ContextMenu("TEST Move To 0")]
