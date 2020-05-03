@@ -172,6 +172,8 @@ public class RoomController : MonoBehaviour
                 }
                 else
                     yield return null;
+            } else {
+                yield return null;
             }
         }
     }
@@ -203,18 +205,6 @@ public class RoomController : MonoBehaviour
 
     #region Breakdown Anger Management
 
-    private IEnumerator ReduceAngerTimer(Breakdown bd)
-    {
-        while (neighbor.numEnfados > 0)
-        {
-            neighbor.Rage();
-            yield return new WaitForSeconds(bd.timeForAnger);
-            neighbor.numEnfados -= 1;
-        }
-
-        if (neighbor.numEnfados <= 0)
-            neighbor.leaveRoom(true);
-    }
 
     private void StopAngerTimer(Breakdown bd)
     {
@@ -244,8 +234,9 @@ public class RoomController : MonoBehaviour
                     neighbor.Rage();
                     neighbor.numEnfados -= 1;
 
-                    if (neighbor.numEnfados <= 0)
-                        neighbor.leaveRoom();
+                    if (neighbor.numEnfados <= 0) {
+                        neighbor.leaveRoom(true);
+                    }
                 }
             }
         }

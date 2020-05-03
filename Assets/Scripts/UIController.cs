@@ -141,8 +141,9 @@ public class UIController : Singleton<UIController> {
         }
     }
     public void HideLife(int index) {
-        if (index >= 0 && index < lifesPanel.transform.childCount && lifesPanel.transform.GetChild(index) != null)
+        if (index >= 0 && index < lifesPanel.transform.childCount && lifesPanel.transform.GetChild(index) != null) {
             StartCoroutine(HideStar(lifesPanel.transform.GetChild(index).gameObject));
+        }
     }
     IEnumerator HideStar(GameObject star) {
 
