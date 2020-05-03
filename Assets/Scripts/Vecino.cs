@@ -22,6 +22,10 @@ public class Vecino : MonoBehaviour {
     private int targetFloor, targetRoom, currentFloor;
     public int numEnfados;
 
+    [Header("Time Out")]
+    private float timeOut = 40f;
+
+
     [ContextMenu("VIVA ZAPATERO")]
     public void initVecino() {
         numEnfados = 3;
@@ -114,6 +118,7 @@ public class Vecino : MonoBehaviour {
         } else if (!leaving) {
             startPatrulla();
             habitacion.centipedesInMyVagina = true;
+            StartCoroutine(ControlTimeOut());
             habitacion.GetComponent<RoomController>().StartGeneratingIncome();
         }
 
@@ -235,5 +240,24 @@ public class Vecino : MonoBehaviour {
         yield return new WaitForSeconds(11);   // Lo que tarda en desaperecer una vez empieza a moverse por la calle
 
         this.gameObject.SetActive(false);
+    }
+
+    private IEnumerator ControlTimeOut()
+    {
+        bool mustLeave = false;
+        float auxTimer = timeOut;
+        while (!mustLeave)
+        {
+            yield return new WaitForSeconds(1f);
+            auxTimer -= 1f;
+
+            if(auxTimer <= 0)
+            {
+                mustLeave = true;
+            }
+        }
+        Debug.Log("ME PIRO PERRAS");
+        leaveRoom(false);
+        yield return null;
     }
 }
