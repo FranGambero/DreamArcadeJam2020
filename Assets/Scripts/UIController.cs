@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
-    public GameObject pauseMenu, optionsMenu, lifesPanel, lifePrefab;
+    public GameObject pauseMenu, optionsMenu, lifesPanel, lifePrefab, resumeBtn;
     public Slider mainThemeSlider, EfectsThemeSlider;
     public TextMeshProUGUI pointstext;
     public Button A1;
@@ -20,9 +21,11 @@ public class UIController : Singleton<UIController> {
     private bool isPaused = false, firstLoop = true, inOptions = false;
     private int moneyTarget;
     private int actualMoney;
+    private EventSystem eventSystem;
     private void Awake() {
         //pauseMenu.SetActive(false);
         pointstext.gameObject.SetActive(true);
+        eventSystem = FindObjectOfType<EventSystem>();
     }
     private void Start() {
         InitSetStars();
@@ -61,6 +64,7 @@ public class UIController : Singleton<UIController> {
     }
     public void setPause() {
         PlaySound("ClickButton", false, true);
+        eventSystem.SetSelectedGameObject(resumeBtn);
 
         isPaused = !isPaused;
         if (isPaused) {
