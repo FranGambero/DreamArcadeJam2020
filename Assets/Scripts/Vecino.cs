@@ -23,7 +23,8 @@ public class Vecino : MonoBehaviour {
     public int numEnfados;
 
     [Header("Time Out")]
-    private float timeOut = 40f;
+    private float timeOut = 90f;
+    private Coroutine controlTimeOut_Routine;
 
 
     [ContextMenu("VIVA ZAPATERO")]
@@ -118,7 +119,7 @@ public class Vecino : MonoBehaviour {
         } else if (!leaving) {
             startPatrulla();
             habitacion.centipedesInMyVagina = true;
-            StartCoroutine(ControlTimeOut());
+            controlTimeOut_Routine = StartCoroutine(ControlTimeOut());
             habitacion.GetComponent<RoomController>().StartGeneratingIncome();
         }
 
@@ -196,6 +197,7 @@ public class Vecino : MonoBehaviour {
 
     [ContextMenu("Mata vecino")]
     public void leaveRoom(bool enfadao = false) {
+        StopControlTimeOut();
         if (enfadao) {
             if (AudioManager.Instance != null)
                 AudioManager.Instance.Play("BadLeave", true);
@@ -246,7 +248,7 @@ public class Vecino : MonoBehaviour {
     {
         bool mustLeave = false;
         float auxTimer = timeOut;
-        while (!mustLeave)
+        while (!mustLeave || habitacion.GetBDCount() > 0)
         {
             yield return new WaitForSeconds(1f);
             auxTimer -= 1f;
@@ -259,5 +261,11 @@ public class Vecino : MonoBehaviour {
         Debug.Log("ME PIRO PERRAS");
         leaveRoom(false);
         yield return null;
+    }
+
+    public void StopControlTimeOut()
+    {
+        if(controlTimeOut_Routine != null)
+            StopCoroutine(controlTimeOut_Routine);
     }
 }

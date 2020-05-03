@@ -31,7 +31,7 @@ public class RoomController : MonoBehaviour
     public float punishTime = 0.5f;
 
     [Header("Anger")]
-    private int timeForAnger = 4;
+    private int timeForAnger = 3;
 
 
     [Header("Income")]
@@ -101,6 +101,11 @@ public class RoomController : MonoBehaviour
     #endregion
 
     #region Getters
+
+    public int GetBDCount()
+    {
+        return breakdownList.Count;
+    }
 
     public bool HasNeighbor()
     {
