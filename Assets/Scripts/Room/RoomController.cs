@@ -7,17 +7,17 @@ public class RoomController : MonoBehaviour
     #region Variables
 
     public int yRoom, xFloor;
-    
+
     private Transform roomTrans;
     private Sprite roomSprite;
     private Vecino neighbor;
     public bool centipedesInMyVagina = false;
     public SpriteRenderer room_renderer;
 
-    
+
     [Header("Breakdown")]
 
-    public List<BreakdownType> availableBDTypes = new List<BreakdownType>{BreakdownType.Wrench, BreakdownType.Hammer, BreakdownType.Extinguisher};
+    public List<BreakdownType> availableBDTypes = new List<BreakdownType> { BreakdownType.Wrench, BreakdownType.Hammer, BreakdownType.Extinguisher };
     public List<GameObject> BD_SpawnList;
     public GameObject BD_Prefab;
 
@@ -25,9 +25,13 @@ public class RoomController : MonoBehaviour
 
     private List<Breakdown> breakdownList = new List<Breakdown>();
     private Coroutine generateBreakdown_Routine;
+    private int maxBreakdowns;
 
     [Header("Wrong Breakdown Punish")]
     public float punishTime = 0.5f;
+
+    [Header("Anger")]
+    public int timeForAnger = 10;
 
 
     [Header("Income")]
@@ -48,11 +52,13 @@ public class RoomController : MonoBehaviour
     private void Awake()
     {
         room_renderer.sprite = roomSprite;
+        maxBreakdowns = BD_SpawnList.Count;
     }
 
     private void Start()
     {
         generateBreakdown_Routine = StartCoroutine(GenerateBreakdownsByTimer());
+        StartCoroutine(FullBDReduceAngerTimer());
     }
 
     #region Setters
@@ -67,9 +73,12 @@ public class RoomController : MonoBehaviour
         this.roomSprite = sprite;
         room_renderer.sprite = roomSprite;
 
-        if(yRoom == 2) {
+        if (yRoom == 2)
+        {
             room_renderer.flipX = true;
-        }  else {
+        }
+        else
+        {
             room_renderer.flipX = false;
         }
     }
@@ -98,7 +107,8 @@ public class RoomController : MonoBehaviour
         return neighbor != null ? true : false;
     }
 
-    public bool isAvailable() {
+    public bool isAvailable()
+    {
         return xFloor <= GrowBuilding.Instance.CurrentFloor + 1;
     }
 
@@ -113,7 +123,7 @@ public class RoomController : MonoBehaviour
         StopGenerateBreakdownsByTimer();
         StopGeneratingIncome();
 
-        foreach(Breakdown bd in breakdownList)
+        foreach (Breakdown bd in breakdownList)
         {
             StopAngerTimer(bd);
         }
@@ -143,7 +153,7 @@ public class RoomController : MonoBehaviour
         {
             Breakdown newBD = Instantiate(BD_Prefab, RandomSpawnPoint()).GetComponent<Breakdown>();
             newBD.AssignRandomBDType();
-            newBD.Anger_Routine = StartCoroutine(ReduceAngerTimer(newBD));
+            //newBD.Anger_Routine = StartCoroutine(ReduceAngerTimer(newBD));
             breakdownList.Add(newBD);
         }
     }
@@ -202,7 +212,7 @@ public class RoomController : MonoBehaviour
             neighbor.numEnfados -= 1;
         }
 
-        if(neighbor.numEnfados <= 0)
+        if (neighbor.numEnfados <= 0)
             neighbor.leaveRoom(true);
     }
 
@@ -212,6 +222,34 @@ public class RoomController : MonoBehaviour
             StopCoroutine(bd.Anger_Routine);
     }
 
+    private IEnumerator FullBDReduceAngerTimer()
+    {
+
+        float auxCountdown = timeForAnger;
+
+        while (true)
+        {
+            if (breakdownList.Count < maxBreakdowns)
+            {
+                auxCountdown = timeForAnger;
+                yield return null;
+            }
+            else if (breakdownList.Count >= maxBreakdowns)
+            {
+                yield return new WaitForSeconds(1f);
+                auxCountdown -= 1;
+                if(auxCountdown <= 0)
+                {
+                    auxCountdown = timeForAnger;
+                    neighbor.Rage();
+                    neighbor.numEnfados -= 1;
+
+                    if (neighbor.numEnfados <= 0)
+                        neighbor.leaveRoom();
+                }
+            }
+        }
+    }
     #endregion
 
     #region Breakdown Removal
@@ -256,7 +294,7 @@ public class RoomController : MonoBehaviour
 
     private void removeBD(Breakdown bd)
     {
-        Debug.Log("Test removeBD: "+bd);
+        Debug.Log("Test removeBD: " + bd);
         if (bd != null)
         {
             // quitar de lista
@@ -277,9 +315,9 @@ public class RoomController : MonoBehaviour
 
         bool rightBD = false;
 
-        foreach(Breakdown bd in breakdownList)
+        foreach (Breakdown bd in breakdownList)
         {
-            if((int)bd.GetBDType() == (int)type)
+            if ((int)bd.GetBDType() == (int)type)
             {
 
                 rightBD = true;
@@ -309,7 +347,7 @@ public class RoomController : MonoBehaviour
     {
         PlayerController.Instance.IsPunished = true;
         yield return new WaitForSeconds(punishTime);
-       // PlayerController.Instance.IsPunished = false;
+        // PlayerController.Instance.IsPunished = false;
     }
 
     #endregion
@@ -325,7 +363,7 @@ public class RoomController : MonoBehaviour
 
     public void StopGeneratingIncome()
     {
-        if(income_Routine != null)
+        if (income_Routine != null)
             StopCoroutine(income_Routine);
     }
     private IEnumerator generateIncome()
@@ -339,12 +377,12 @@ public class RoomController : MonoBehaviour
 
     private int CalculateIncome()
     {
-        return Mathf.Clamp((maxPointsGain - (punishPerBD * breakdownList.Count)),0,maxPointsGain);
+        return Mathf.Clamp((maxPointsGain - (punishPerBD * breakdownList.Count)), 0, maxPointsGain);
     }
 
     private void CheckProgression()
     {
-        if(pointsForProgression.Count != 0)
+        if (pointsForProgression.Count != 0)
         {
             if (RoomManager.Instance.totalPoints >= pointsForProgression[0])
             {
