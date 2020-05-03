@@ -17,7 +17,7 @@ public class Vecino : MonoBehaviour {
     private float patrullaOffset = 2.222517f;
     private float yOffset = -.6755119f; // Josefa la cerda
 
-    private Coroutine patrolCoroutine;
+    private Coroutine patrolCoroutine, blinkCoroutine;
 
     private int targetFloor, targetRoom, currentFloor;
     public int numEnfados;
@@ -107,17 +107,17 @@ public class Vecino : MonoBehaviour {
             nextRoom = tour.Dequeue();
             transform.position = nextRoom;
             Invoke(nameof(selectNextRoom), 1);
-        } else if(tour.Count == 1){
+        } else if (tour.Count == 1) {
             nextRoom = tour.Dequeue();
             moveHorizontal = true;
             flipDirection();
-        } else if(!leaving){
+        } else if (!leaving) {
             startPatrulla();
             habitacion.centipedesInMyVagina = true;
             habitacion.GetComponent<RoomController>().StartGeneratingIncome();
         }
 
-        if(leaving && tour.Count >= 0) {
+        if (leaving && tour.Count <= 0) {
             StartCoroutine(setInactive());
         }
     }
@@ -153,6 +153,34 @@ public class Vecino : MonoBehaviour {
             nextRoom = habitacion.transform.position - Vector3.left * patrullaOffset;
         }
         nextRoom += Vector3.up * yOffset;
+    }
+
+    internal void Rage() {
+        if (blinkCoroutine != null)
+            StopCoroutine(blinkCoroutine);
+        Debug.Log("Enfadaaoooooooo");
+        blinkCoroutine = StartCoroutine(Blink());
+    }
+
+    IEnumerator Blink() {
+        for (int i = 0; i < 3; i++) {
+            if (numEnfados == 1) {
+                spriteRenderer1.color = Color.red;
+                spriteRenderer2.color = Color.red;
+            } else {
+                spriteRenderer1.color = Color.white;
+                spriteRenderer2.color = Color.white;
+            }
+            yield return new WaitForSeconds(.25f);
+            Color color = new Color();
+            color.a = 0;
+            spriteRenderer1.color = color;
+            spriteRenderer2.color = color;
+            yield return new WaitForSeconds(.25f);
+        }
+        spriteRenderer1.color = Color.white;
+        spriteRenderer2.color = Color.white;
+
     }
 
     public void toggleAnimation() {

@@ -197,6 +197,7 @@ public class RoomController : MonoBehaviour
     {
         while (neighbor.numEnfados > 0)
         {
+            neighbor.Rage();
             yield return new WaitForSeconds(bd.timeForAnger);
             neighbor.numEnfados -= 1;
         }
