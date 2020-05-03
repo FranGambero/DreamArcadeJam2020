@@ -19,7 +19,6 @@ public class PlayerStats : Singleton<PlayerStats>
     private void assignLifes() {
         // Cambiar por asignacion de imagenes segun nivel dificultad
 
-        Debug.Log("Tienes vidas: " + pilaVidas);
     }
     [ContextMenu("Damage")]
     public void performDamage() {
