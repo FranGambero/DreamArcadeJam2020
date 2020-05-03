@@ -34,8 +34,9 @@ public class UIController : Singleton<UIController> {
             mainThemeSlider.value = AudioManager.Instance.GetVolume("Theme");
             mainThemeSlider.onValueChanged.RemoveAllListeners();
             mainThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Theme", vol));
+            EfectsThemeSlider.value = AudioManager.Instance.GetVolume("Effects");
             EfectsThemeSlider.onValueChanged.RemoveAllListeners();
-            EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Effects", vol));
+            EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => { AudioManager.Instance.ChangeVolumen("Effects", vol); AudioManager.Instance.Play("ClickButton"); });
         }
     }
 
@@ -54,8 +55,13 @@ public class UIController : Singleton<UIController> {
         LerpMoney();
 
     }
-
+    private void PlaySound(string name, bool oneshot = false, bool randomPeach = false) {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.Play(name, oneshot, randomPeach);
+    }
     public void setPause() {
+        PlaySound("ClickButton", false, true);
+
         isPaused = !isPaused;
         if (isPaused) {
             Time.timeScale = 0;
@@ -66,19 +72,27 @@ public class UIController : Singleton<UIController> {
     }
 
     public void Restart() {
+        PlaySound("ClickButton");
+
         Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
     public void Back() {
+        PlaySound("ClickButton");
+
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
     public void BackToPause() {
+        PlaySound("ClickButton");
+
         inOptions = false;
         optionsMenu.SetActive(false);
         pauseMenu.SetActive(true);
     }
     public void OpenOptions() {
+        PlaySound("ClickButton");
+
         inOptions = true;
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(true);

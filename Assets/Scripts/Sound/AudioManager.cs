@@ -66,9 +66,10 @@ public class AudioManager : MonoBehaviour {
     internal float GetVolume(string name) {
         Sound s;
         if (name.Equals("Effects")) {
-            s = sounds.Find(Sound => !Sound.name.Equals("Theme"));
+            s = sounds.Find(sound => !sound.name.Equals("Theme"));
+            Debug.Log(s.name);
         } else {
-            s = sounds.Find(Sound => Sound.name == name);
+            s = sounds.Find(sound => sound.name == name);
         }
         if (s == null)
             return 0f;

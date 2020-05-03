@@ -325,6 +325,8 @@ public class RoomController : MonoBehaviour
                 if (bd.ReduceCountdown() <= 0)
                 {
                     Debug.Log("-- El CD es 0");
+                    if (AudioManager.Instance != null)
+                        AudioManager.Instance.Play("Fix", true);
                     //availableBDTypes.Add(bd.GetBDType());
                     return bd;
                 }
@@ -334,6 +336,7 @@ public class RoomController : MonoBehaviour
 
         if (!rightBD)
             StartPunishPlayer();
+       
 
         return null;
     }
@@ -345,6 +348,8 @@ public class RoomController : MonoBehaviour
 
     private IEnumerator PunishPlayer()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.Play("Fail", true);
         PlayerController.Instance.IsPunished = true;
         yield return new WaitForSeconds(punishTime);
         // PlayerController.Instance.IsPunished = false;

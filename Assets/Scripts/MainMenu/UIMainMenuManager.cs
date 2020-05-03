@@ -32,9 +32,10 @@ public class UIMainMenuManager : MonoBehaviour {
     private void SetManagertVolumes() {
         mainThemeSlider.value = AudioManager.Instance.GetVolume("Theme");
         mainThemeSlider.onValueChanged.RemoveAllListeners();
-        mainThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Theme", vol)); 
+        mainThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Theme", vol));
+        EfectsThemeSlider.value = AudioManager.Instance.GetVolume("Effects");
         EfectsThemeSlider.onValueChanged.RemoveAllListeners();
-        EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Effects", vol));
+        EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => { AudioManager.Instance.ChangeVolumen("Effects", vol); AudioManager.Instance.Play("ClickButton"); });
     }
     private void Update() {
         if (starting) {
@@ -84,6 +85,7 @@ public class UIMainMenuManager : MonoBehaviour {
     }
 
     public void BackMainMenu(int index) {
+        AudioManager.Instance.Play("ClickButton");
         switch (index) {
             case 0:
                 starting = false;
@@ -112,6 +114,8 @@ public class UIMainMenuManager : MonoBehaviour {
     }
 
     public void LetsStart() {
+        AudioManager.Instance.Play("ClickButton");
+
         starting = true;
         cameraAnim.Play("ZoomInCameraAnim");
         facadeAnim.Play("FacadeOutAnim");
@@ -128,6 +132,7 @@ public class UIMainMenuManager : MonoBehaviour {
     }
 
     public void NextSprite() {
+        AudioManager.Instance.Play("ClickButton");
         spritesIndex += 2;
         spritesIndex = spritesIndex % GameController.Instance.spritesCaserxLibres.Count;
         PlayerSpriteRenderer1.sprite = GameController.Instance.spritesCaserxLibres[spritesIndex];
@@ -135,6 +140,7 @@ public class UIMainMenuManager : MonoBehaviour {
     }
 
     public void PrevSprite() {
+        AudioManager.Instance.Play("ClickButton");
         spritesIndex -= 2;
         if (spritesIndex < 0)
             spritesIndex = GameController.Instance.spritesCaserxLibres.Count - 2;
@@ -143,11 +149,13 @@ public class UIMainMenuManager : MonoBehaviour {
     }
 
     public void StartGame() {
+        AudioManager.Instance.Play("ClickButton");
         PlayerPrefs.SetInt(GameController.Instance.PLAYER_SELECTED_KEY, spritesIndex);
         SceneManager.LoadScene(1);
     }
 
     public void GoOptions() {
+        AudioManager.Instance.Play("ClickButton");
         inOptions = true;
         cameraAnim.Play("MoveRightCamAnim");
         menuAnim.Play("MainMenuOutAnim");
@@ -155,9 +163,11 @@ public class UIMainMenuManager : MonoBehaviour {
         optionsMenuAnim.Play("OtherMenuInAnim");
     }
     public void GoCredits() {
+        AudioManager.Instance.Play("ClickButton");
         SceneManager.LoadScene("Credits");
     }
     public void GoInstructions() {
+        AudioManager.Instance.Play("ClickButton");
         inInstructions = true;
         cameraAnim.Play("MoveRightCamAnim");
         menuAnim.Play("MainMenuOutAnim");

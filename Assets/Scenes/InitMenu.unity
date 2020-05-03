@@ -9766,6 +9766,24 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: ClickButton
+    clip: {fileID: 8300000, guid: 92e2e779a7f6cca4abe15aecda548390, type: 3}
+    volume: 0.61
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fail
+    clip: {fileID: 8300000, guid: cad9f20bd6a1a6a48a82721afdb0e276, type: 3}
+    volume: 0.61
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fix
+    clip: {fileID: 8300000, guid: e7a35c2bb1a8c1645a50d919a25b448f, type: 3}
+    volume: 0.61
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &498981182
 Transform:
   m_ObjectHideFlags: 0
@@ -13033,7 +13051,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 6e-45, z: 6.604e-42, w: 1.05e-43}
+  m_BoundingSphereOverride: {x: 0, y: 3.397913e-39, z: 0, w: 1.8e-43}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0

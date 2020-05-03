@@ -26,7 +26,12 @@ public class PlayerController : Singleton<PlayerController> {
 
     private bool isPunished;
 
-    public bool IsPunished { get => isPunished; set => isPunished = value; }
+    public bool IsPunished {
+        get => isPunished; set {
+
+            isPunished = value;
+        }
+    }
 
     private void Start() {
         floorNumber = 0; // Floor number
@@ -112,7 +117,7 @@ public class PlayerController : Singleton<PlayerController> {
     }
     private void KeyPressed(KeyCode key, BreakdownType b_Type) {
         if (!IsPunished) {
-
+          
             if (currentRoom != null)
                 currentRoom.ReduceBDCountdown(key);
             if (handCoroutine != null)
