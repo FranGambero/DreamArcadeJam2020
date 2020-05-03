@@ -31,7 +31,7 @@ public class RoomController : MonoBehaviour
     public float punishTime = 0.5f;
 
     [Header("Anger")]
-    public int timeForAnger = 5;
+    private int timeForAnger = 4;
 
 
     [Header("Income")]
@@ -215,22 +215,23 @@ public class RoomController : MonoBehaviour
     private IEnumerator FullBDReduceAngerTimer()
     {
 
-        float auxCountdown = timeForAnger;
+        float auxCountdown = this.timeForAnger;
 
         while (true)
         {
             if (breakdownList.Count < maxBreakdowns)
             {
-                auxCountdown = timeForAnger;
+                auxCountdown = this.timeForAnger;
                 yield return null;
             }
             else if (breakdownList.Count >= maxBreakdowns)
             {
                 yield return new WaitForSeconds(1f);
                 auxCountdown -= 1;
+                Debug.Log("++ TIEMPO PARA ENFADO "+auxCountdown);
                 if(auxCountdown <= 0)
                 {
-                    auxCountdown = timeForAnger;
+                    auxCountdown = this.timeForAnger;
                     neighbor.Rage();
                     neighbor.numEnfados -= 1;
 
