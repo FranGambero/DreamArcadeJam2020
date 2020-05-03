@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
-    public GameObject pauseMenu, lifesPanel, lifePrefab;
-
+    public GameObject pauseMenu, optionsMenu, lifesPanel, lifePrefab;
+    public Slider mainThemeSlider, EfectsThemeSlider;
     public TextMeshProUGUI pointstext;
     public Button A1;
     public Button A2;
@@ -17,7 +17,7 @@ public class UIController : Singleton<UIController> {
     public Animator MainCameraAnim;
     public Animator CoinAnim;
     public float coinSumSpeed = 100;
-    private bool isPaused = false, firstLoop = true;
+    private bool isPaused = false, firstLoop = true, inOptions = false;
     private int moneyTarget;
     private int actualMoney;
     private void Awake() {
@@ -26,14 +26,30 @@ public class UIController : Singleton<UIController> {
     }
     private void Start() {
         InitSetStars();
+        SetManagertVolumes();
     }
+
+    private void SetManagertVolumes() {
+        if (AudioManager.Instance != null) {
+            mainThemeSlider.value = AudioManager.Instance.GetVolume("Theme");
+            mainThemeSlider.onValueChanged.RemoveAllListeners();
+            mainThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Theme", vol));
+            EfectsThemeSlider.onValueChanged.RemoveAllListeners();
+            EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => AudioManager.Instance.ChangeVolumen("Effects", vol));
+        }
+    }
+
     private void Update() {
         if (firstLoop) {
             firstLoop = false;
             MainCameraAnim.Play("ZoomOutCameraAnim");
         }
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            setPause();
+            if (inOptions) {
+                BackToPause();
+            } else {
+                setPause();
+            }
         }
         LerpMoney();
 
@@ -57,8 +73,15 @@ public class UIController : Singleton<UIController> {
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
+    public void BackToPause() {
+        inOptions = false;
+        optionsMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+    }
     public void OpenOptions() {
-
+        inOptions = true;
+        pauseMenu.SetActive(false);
+        optionsMenu.SetActive(true);
     }
     public void Quit() {
         Time.timeScale = 1;

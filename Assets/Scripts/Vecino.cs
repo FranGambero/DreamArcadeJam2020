@@ -163,14 +163,12 @@ public class Vecino : MonoBehaviour {
     }
 
     IEnumerator Blink() {
+        Color auxColor = numEnfados == 1 ? Color.red : Color.white;
         for (int i = 0; i < 3; i++) {
-            if (numEnfados == 1) {
-                spriteRenderer1.color = Color.red;
-                spriteRenderer2.color = Color.red;
-            } else {
-                spriteRenderer1.color = Color.white;
-                spriteRenderer2.color = Color.white;
-            }
+
+            spriteRenderer1.color = auxColor;
+            spriteRenderer2.color = auxColor;
+
             yield return new WaitForSeconds(.25f);
             Color color = new Color();
             color.a = 0;
