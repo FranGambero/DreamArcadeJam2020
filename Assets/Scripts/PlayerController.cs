@@ -51,49 +51,51 @@ public class PlayerController : Singleton<PlayerController> {
 
     private void Update() {
         // Esto se puede mejorar, molaria sacar la llamada a MovePosition y hacerla común
-        if (Input.GetAxisRaw("Vertical") > 0 && floorNumber < GameController.Instance.numFloors - 1 && roomNumber == 1) {
-            //if(floorNumber > GrowBuilding.Instance.CurrentFloor + 1)
-            if (!usingAxisUp) {
-                usingAxisUp = true;
-                movePosition(floorNumber + 1, roomNumber);
+        if (PlayerStats.Instance.currentLifes > 0) {
+            if (Input.GetAxisRaw("Vertical") > 0 && floorNumber < GameController.Instance.numFloors - 1 && roomNumber == 1) {
+                //if(floorNumber > GrowBuilding.Instance.CurrentFloor + 1)
+                if (!usingAxisUp) {
+                    usingAxisUp = true;
+                    movePosition(floorNumber + 1, roomNumber);
+                }
+            } else {
+                usingAxisUp = false;
             }
-        } else {
-            usingAxisUp = false;
-        }
 
-        if (Input.GetAxisRaw("Vertical") < 0 && floorNumber > 0 && roomNumber == 1) {
-            if (!usingAxisDown) {
-                movePosition(floorNumber - 1, roomNumber);
-                usingAxisDown = true;
+            if (Input.GetAxisRaw("Vertical") < 0 && floorNumber > 0 && roomNumber == 1) {
+                if (!usingAxisDown) {
+                    movePosition(floorNumber - 1, roomNumber);
+                    usingAxisDown = true;
 
+                }
+            } else {
+                usingAxisDown = false;
             }
-        } else {
-            usingAxisDown = false;
-        }
 
-        if (Input.GetAxisRaw("Horizontal") > 0 && roomNumber < GameController.Instance.numRooms - 1) {
-            if (!usingAxisRigth) {
-                usingAxisRigth = true;
-                sprite1.flipX = false;
-                sprite2.flipX = false;
-                movePosition(floorNumber, roomNumber + 1);
+            if (Input.GetAxisRaw("Horizontal") > 0 && roomNumber < GameController.Instance.numRooms - 1) {
+                if (!usingAxisRigth) {
+                    usingAxisRigth = true;
+                    sprite1.flipX = false;
+                    sprite2.flipX = false;
+                    movePosition(floorNumber, roomNumber + 1);
+                }
+            } else {
+                usingAxisRigth = false;
             }
-        } else {
-            usingAxisRigth = false;
-        }
 
-        if (Input.GetAxisRaw("Horizontal") < 0 && roomNumber > 0) {
-            if (!usingAxisLeft) {
-                usingAxisLeft = true;
-                sprite1.flipX = true;
-                sprite2.flipX = true;
-                movePosition(floorNumber, roomNumber - 1);
+            if (Input.GetAxisRaw("Horizontal") < 0 && roomNumber > 0) {
+                if (!usingAxisLeft) {
+                    usingAxisLeft = true;
+                    sprite1.flipX = true;
+                    sprite2.flipX = true;
+                    movePosition(floorNumber, roomNumber - 1);
+                }
+            } else {
+                usingAxisLeft = false;
             }
-        } else {
-            usingAxisLeft = false;
-        }
 
-        checkInputs();
+            checkInputs();
+        }
 
     }
 

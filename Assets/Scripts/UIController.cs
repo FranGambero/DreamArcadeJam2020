@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
     public GameObject pauseMenu, optionsMenu, lifesPanel, lifePrefab, resumeBtn;
+    public TextMeshProUGUI gameOverMenu;
     public Slider mainThemeSlider, EfectsThemeSlider;
     public TextMeshProUGUI pointstext;
     public Button A1;
@@ -44,18 +45,26 @@ public class UIController : Singleton<UIController> {
     }
 
     private void Update() {
-        if (firstLoop) {
-            firstLoop = false;
-            MainCameraAnim.Play("ZoomOutCameraAnim");
-        }
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (inOptions) {
-                BackToPause();
-            } else {
-                setPause();
+        if (PlayerStats.Instance.currentLifes > 0) {
+
+            if (firstLoop) {
+                firstLoop = false;
+                MainCameraAnim.Play("ZoomOutCameraAnim");
+            }
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                if (inOptions) {
+                    BackToPause();
+                } else {
+                    setPause();
+                }
+            }
+            LerpMoney();
+        } else {
+            if (Input.anyKeyDown) {
+                Back();
             }
         }
-        LerpMoney();
+
 
     }
     private void PlaySound(string name, bool oneshot = false, bool randomPeach = false) {
@@ -170,5 +179,11 @@ public class UIController : Singleton<UIController> {
         }
         star.SetActive(true);
 
+    }
+
+    public void showGameOver() {
+        Time.timeScale = 0;
+        gameOverMenu.transform.parent.gameObject.SetActive(true);
+        gameOverMenu.text = RoomManager.Instance.totalPoints.ToString();
     }
 }

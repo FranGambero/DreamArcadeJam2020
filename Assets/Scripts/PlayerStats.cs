@@ -29,8 +29,6 @@ public class PlayerStats : Singleton<PlayerStats>
         UIController.Instance.HideLife(currentLifes-1);
         currentLifes -= damage;
 
-        //updateLifes();
-
         if(currentLifes <= 0) {
             marryPlayer();
         }
@@ -49,6 +47,6 @@ public class PlayerStats : Singleton<PlayerStats>
     }
 
     private void marryPlayer() {
-        Debug.Log("Te casaste, la cagaste");
+        UIController.Instance.showGameOver();
     }
 }
