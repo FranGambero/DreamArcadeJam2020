@@ -108,7 +108,6 @@ public class GameController : Singleton<GameController> {
     private void spawnVecino() {
         // Esto tampoco funciona :(
         if (listaVecinos.Count >= numVecinosActivos) {
-            Debug.LogWarning("Total vecinos " + listaVecinos.Count + " y hay: " + numVecinosActivos);
             GameObject nextVecino = listaVecinos.Find(item => item.activeInHierarchy == false);
             nextVecino.SetActive(true);
             nextVecino.GetComponent<Vecino>().initVecino();
