@@ -192,6 +192,8 @@ public class Vecino : MonoBehaviour {
     [ContextMenu("Mata vecino")]
     public void leaveRoom(bool enfadao = false) {
         if (enfadao) {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.Play("BadLeave", true);
             PlayerStats.Instance.performDamage();
         }
 

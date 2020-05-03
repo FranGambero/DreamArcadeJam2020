@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour {
     // sounds.ForEach(s => (s.source.volume != s.volume ? s.source.volume = s.volume : s.source.volume = s.volume));
     //}
     private void Start() {
-        Play("Theme");
+        Play("Theme",false,false);
     }
     /// <summary>
     /// Play the sound clip

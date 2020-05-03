@@ -62,6 +62,8 @@ public class GrowBuilding : Singleton<GrowBuilding> {
     }
 
     public void SetInPostion(int indexPosition) {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.Play("GrowBuild");
         nextPostion = positions[indexPosition];
         StartCoroutine(MoveToNextPositon());
         CurrentFloor = indexPosition;
