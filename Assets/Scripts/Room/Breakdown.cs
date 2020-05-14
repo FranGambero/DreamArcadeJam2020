@@ -87,7 +87,7 @@ public class Breakdown : MonoBehaviour
     private void AssignCountdown()
     {
         bd_countdown = Random.Range(minCountdown, maxCountdown);
-        Debug.Log("Countdown: "+bd_countdown);
+
     }
 
     public int ReduceCountdown()

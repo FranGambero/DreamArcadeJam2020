@@ -123,7 +123,7 @@ public class RoomController : MonoBehaviour
 
     public void ResetRoom()
     {
-        Debug.Log("Reset Room");
+
         centipedesInMyVagina = false;
         StopGenerateBreakdownsByTimer();
         StopGeneratingIncome();
@@ -260,7 +260,6 @@ public class RoomController : MonoBehaviour
             switch (key)
             {
                 case (KeyCode.Alpha1):
-                    Debug.Log(" - usando wrench");
                     //Reduce Wrench
                     auxBD = ReduceBDCountdownByType(BreakdownType.Wrench);
                     removeBD(auxBD);
@@ -268,7 +267,6 @@ public class RoomController : MonoBehaviour
                     break;
 
                 case (KeyCode.Alpha2):
-                    Debug.Log(" + usando hammer");
                     //Reduce Hammer
                     auxBD = ReduceBDCountdownByType(BreakdownType.Hammer);
                     removeBD(auxBD);
@@ -276,7 +274,6 @@ public class RoomController : MonoBehaviour
                     break;
 
                 case (KeyCode.Alpha3):
-                    Debug.Log(" * usando extinguisher");
                     //Reduce Extinguisher
                     auxBD = ReduceBDCountdownByType(BreakdownType.Extinguisher);
                     removeBD(auxBD);
@@ -291,7 +288,6 @@ public class RoomController : MonoBehaviour
 
     private void removeBD(Breakdown bd)
     {
-        Debug.Log("Test removeBD: " + bd);
         if (bd != null)
         {
             // quitar de lista
@@ -321,7 +317,6 @@ public class RoomController : MonoBehaviour
 
                 if (bd.ReduceCountdown() <= 0)
                 {
-                    Debug.Log("-- El CD es 0");
                     if (AudioManager.Instance != null)
                         AudioManager.Instance.Play("Fix", true);
                     //availableBDTypes.Add(bd.GetBDType());

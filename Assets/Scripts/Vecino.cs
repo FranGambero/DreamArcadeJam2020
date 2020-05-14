@@ -124,6 +124,7 @@ public class Vecino : MonoBehaviour {
         }
 
         if (leaving && tour.Count <= 0) {
+            changeSpriteOrderInLayer();
             StartCoroutine(setInactive());
         }
     }
@@ -164,7 +165,6 @@ public class Vecino : MonoBehaviour {
     internal void Rage() {
         if (blinkCoroutine != null)
             StopCoroutine(blinkCoroutine);
-        Debug.Log("Enfadaaoooooooo");
         blinkCoroutine = StartCoroutine(Blink());
     }
 

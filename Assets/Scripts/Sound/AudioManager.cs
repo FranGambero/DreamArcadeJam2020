@@ -67,7 +67,7 @@ public class AudioManager : MonoBehaviour {
         Sound s;
         if (name.Equals("Effects")) {
             s = sounds.Find(sound => !sound.name.Equals("Theme"));
-            Debug.Log(s.name);
+
         } else {
             s = sounds.Find(sound => sound.name == name);
         }

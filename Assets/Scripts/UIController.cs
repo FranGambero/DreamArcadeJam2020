@@ -8,13 +8,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController> {
-    public GameObject pauseMenu, optionsMenu, lifesPanel, lifePrefab, resumeBtn;
+    public GameObject pauseMenu, optionsMenu, lifesPanel, lifePrefab, resumeBtn, rightHandPanel, leftHandPanel;
     public TextMeshProUGUI gameOverMenu;
     public Slider mainThemeSlider, EfectsThemeSlider;
     public TextMeshProUGUI pointstext;
     public Button A1;
     public Button A2;
     public Button A3;
+    public Toggle toggleLeftHand;
     public Sprite ToolStay, ToolClicked;
     public Animator MainCameraAnim;
     public Animator CoinAnim;
@@ -31,6 +32,7 @@ public class UIController : Singleton<UIController> {
     private void Start() {
         InitSetStars();
         SetManagertVolumes();
+        toggleLeftHand.onValueChanged.AddListener(Action => { ChangeHandPanel(toggleLeftHand); });
     }
 
     private void SetManagertVolumes() {
@@ -42,6 +44,10 @@ public class UIController : Singleton<UIController> {
             EfectsThemeSlider.onValueChanged.RemoveAllListeners();
             EfectsThemeSlider.onValueChanged.AddListener((System.Single vol) => { AudioManager.Instance.ChangeVolumen("Effects", vol); AudioManager.Instance.Play("ClickButton"); });
         }
+    }
+    private void ChangeHandPanel(Toggle toggle) {
+        leftHandPanel.SetActive(toggle.isOn);
+        rightHandPanel.SetActive(!toggle.isOn);
     }
 
     private void Update() {
@@ -60,7 +66,7 @@ public class UIController : Singleton<UIController> {
             }
             LerpMoney();
         } else {
-            if (Input.anyKeyDown) {
+            if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Space)) {
                 Back();
             }
         }
